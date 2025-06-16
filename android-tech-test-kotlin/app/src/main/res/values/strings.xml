@@ -4,7 +4,28 @@
     <string name="pupil_detail_id">Id</string>
     <string name="pupil_detail_name">Name</string>
     <string name="pupil_detail_country">Country</string>
+    <string name="Location">Longitude</string>
     <string name="sync">Sync</string>
+    <string name="delete">"Delete pupil</string>
+
+    <string name="Pupil_id">PupilId</string>
+    <string name="Pupil_id_value">1234</string>
+
+    <string name="name">Name</string>
+    <string name="name_value"> Umanah </string>
+
+
+    <string name="latitude_value">11111.11</string>
+    <string name="latitude">latitude :</string>
+
+    <string name="longitude_value">11111.11</string>
+    <string name="longitude">longitude :</string>
+
+
+    <string name="country">country</string>
+    <string name="country_value">Kenya</string>
+
+
 
     <string name="data_reset">Api Data Reset</string>
     <string name="data_reset_failed">Data Reset Failed</string>
