@@ -23,53 +23,58 @@
             android:scaleType="centerCrop"
             android:layout_marginBottom="24dp" />
 
-        <!-- First Text Field -->
+
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/countryTextField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/Country"
-            android:layout_marginBottom="12dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            >
+            android:hint="@string/Country">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/enterCountry"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:textColor="#2B2B2B"
+                />
+
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Second Text Field -->
+
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/EnterName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/Enter_Name"
-            android:layout_marginBottom="12dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             >
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/enterName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:inputType="text"
+                android:textColor="#2B2B2B"
+
+                />
+
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Third Text Field -->
+
+
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/EnterLatitude"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/Enter_Latitude"
-            android:layout_marginBottom="12dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            >
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/latitude"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:inputType="text"
+                android:textColor="#2B2B2B"
+                />
+
         </com.google.android.material.textfield.TextInputLayout>
+
 
         <!-- Fourth Text Field -->
         <com.google.android.material.textfield.TextInputLayout
@@ -84,34 +89,18 @@
                 android:id="@+id/longitude"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:inputType="text"
+                android:textColor="#2B2B2B"/>
         </com.google.android.material.textfield.TextInputLayout>
 
 
-        <!-- Buttons Row -->
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/filledButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:text="@string/Create"
+            />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnUpdate"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="@string/Update"
-                android:layout_marginEnd="8dp" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnDelete"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="@string/Delete"
-                android:layout_marginStart="8dp"
-                app:backgroundTint ="@color/deleteButton"/>
-        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>
