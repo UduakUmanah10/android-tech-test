@@ -29,4 +29,9 @@
 
     <string name="data_reset">Api Data Reset</string>
     <string name="data_reset_failed">Data Reset Failed</string>
+
+    <string name="enter_a_page_number"> Enter A Page Number</string>
+    <string name="Load_Data"> Load Data</string>
+
+
 </resources>
