@@ -34,6 +34,7 @@
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="12dp"
 					android:hint="@string/enter_a_page_number"
+					android:textColorHint="@android:color/black"
 					app:errorEnabled="true">
 
 					<com.google.android.material.textfield.TextInputEditText
@@ -50,6 +51,7 @@
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="12dp"
 					android:hint="@string/Enter_Name"
+					android:textColorHint="@android:color/black"
 					>
 
 					<com.google.android.material.textfield.TextInputEditText

@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.dagger)
     alias(libs.plugins.kotlin.kapt)
 }
 
@@ -15,13 +17,12 @@ android {
         versionName = "1.0"
     }
 
-
     buildTypes {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
             )
         }
     }
@@ -37,25 +38,41 @@ android {
 }
 
 dependencies {
+    // Koin
     implementation(libs.koin.android)
 
+    // AndroidX libraries
     implementation(libs.androidx.legacy.support.v4)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.google.material)
 
-    implementation(libs.androidx.room.runtime)
+    // Room (use KSP for Room compiler)
+    implementation(libs.room.ktx)
     implementation(libs.androidx.room.rxjava2)
-    kapt(libs.androidx.room.compiler)
+    ksp(libs.room.compiler)          // Use KSP here, NOT kapt
 
+    // RxJava and RxAndroid
     implementation(libs.rxandroid)
     implementation(libs.rxjava)
-    implementation(libs.retrofit)
-    implementation(libs.okhttp)
-    implementation(libs.retrofit.converter.gson)
-    implementation(libs.retrofit.adapter.rxjava2)
 
+    // Retrofit + OkHttp
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson.convertor)
+    implementation(libs.retrofit.adapter.rxjava2)
+    implementation(libs.okhttp)
+
+    // WorkManager + Hilt integration
+    implementation(libs.work.manager)
+    implementation(libs.work.manager.dagger)
+    ksp(libs.work.manager.dagger.kapt)
+
+    // Hilt dependencies
+    implementation(libs.dagger.hilt)
+    kapt(libs.hilt.android.compiler)   // Hilt compiler currently requires kapt, no full KSP support yet
+
+    // Testing dependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
