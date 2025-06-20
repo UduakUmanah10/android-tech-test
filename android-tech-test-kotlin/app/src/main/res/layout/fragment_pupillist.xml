@@ -1,88 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:layout_margin="8dp"
-	app:cardCornerRadius="16dp"
-	app:cardElevation="4dp">
+	android:padding="16dp"
+	android:background="?android:attr/windowBackground">
 
-	<FrameLayout
-		android:layout_width="match_parent"
-		android:layout_height="match_parent">
+	<!-- Scrollable content container -->
+	<ScrollView
+		android:id="@+id/scrollView"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:fillViewport="true"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintEnd_toEndOf="parent">
 
-		<!-- Loading View with Input -->
-		<LinearLayout
-			android:id="@+id/loadingView"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:orientation="vertical"
-			android:gravity="center"
-			android:padding="24dp">
+			<LinearLayout
+				android:layout_width="393dp"
+				android:layout_height="612dp"
+				android:gravity="center_horizontal"
+				android:maxWidth="488dp"
+				android:orientation="vertical"
+				android:padding="24dp">
 
-			<!-- Fixed width container for TextInput -->
-			<FrameLayout
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginBottom="16dp"
-				android:layout_gravity="center"
-				android:maxWidth="488dp">
-
+				<!-- Page Number -->
 				<com.google.android.material.textfield.TextInputLayout
 					android:id="@+id/textInputLayout"
-					android:layout_width="488dp"
+					style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
+					android:layout_marginBottom="12dp"
 					android:hint="@string/enter_a_page_number"
-					style="@style/Widget.Material3.TextInputLayout.FilledBox"
+					android:textColorHint="@android:color/black"
 					app:errorEnabled="true">
 
 					<com.google.android.material.textfield.TextInputEditText
 						android:id="@+id/inputField"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:inputType="number"
-						android:textColor="@android:color/black" />
+						android:inputType="number" />
 				</com.google.android.material.textfield.TextInputLayout>
-			</FrameLayout>
 
-			<!-- Load Button -->
-			<com.google.android.material.button.MaterialButton
-				android:id="@+id/loadButton"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/Load_Data"
-				android:layout_marginTop="16dp"
-				style="@style/Widget.Material3.Button" />
 
-			<!-- Error message under button -->
-			<com.google.android.material.textview.MaterialTextView
-				android:id="@+id/name_value"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/name_value"
-				android:visibility="gone"
-				android:textSize="16sp"
-				android:textStyle="bold"
-				android:textColor="@android:color/holo_red_dark"
-				android:layout_marginTop="8dp" />
+				<com.google.android.material.textfield.TextInputLayout
+					style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="12dp"
+					android:hint="@string/Enter_Name"
+					android:textColorHint="@android:color/black"
+					>
 
-			<!-- Circular Progress Indicator -->
-			<com.google.android.material.progressindicator.CircularProgressIndicator
-				android:id="@+id/progressBar"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="16dp"
-				android:visibility="gone"
-				app:indicatorSize="48dp"
-				app:trackThickness="4dp"
-				app:indicatorColor="@color/colorPrimary" />
-		</LinearLayout>
+					<com.google.android.material.textfield.TextInputEditText
+						android:id="@+id/enterName"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:inputType="text" />
+				</com.google.android.material.textfield.TextInputLayout>
 
-		<!-- RecyclerView (initially hidden) -->
-		<androidx.recyclerview.widget.RecyclerView
-			android:id="@+id/pupil_list"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:visibility="gone" />
-	</FrameLayout>
-</com.google.android.material.card.MaterialCardView>
+				<!-- Load Button -->
+				<com.google.android.material.button.MaterialButton
+					android:id="@+id/loadButton"
+					style="@style/Widget.Material3.Button"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="16dp"
+					android:visibility="visible"
+					android:text="@string/Load_Data"
+
+					/>
+
+				<!-- Error Text -->
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/name_value"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="8dp"
+					android:text="@string/name_value"
+					android:textColor="@android:color/holo_red_dark"
+					android:textSize="16sp"
+					android:textStyle="bold"
+					android:visibility="gone" />
+
+				<!-- Progress -->
+				<com.google.android.material.progressindicator.CircularProgressIndicator
+					android:id="@+id/progressBar"
+					android:layout_width="wrap_content"
+					android:indeterminate="true"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="16dp"
+					android:visibility="visible"
+					app:indicatorColor="@color/colorPrimary"
+					app:indicatorSize="48dp"
+					app:trackThickness="4dp"
+					/>
+			</LinearLayout>
+
+	</ScrollView>
+
+	<!-- Floating Action Button -->
+	<com.google.android.material.floatingactionbutton.FloatingActionButton
+		android:id="@+id/fab"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_margin="16dp"
+		android:contentDescription="@string/Add"
+		app:srcCompat="@drawable/ic_add"
+		app:backgroundTint="?attr/colorPrimary"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent" />
+
+	<!-- RecyclerView -->
+	<androidx.recyclerview.widget.RecyclerView
+		android:id="@+id/pupil_list"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:visibility="gone"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

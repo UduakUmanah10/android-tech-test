@@ -135,6 +135,7 @@
             android:layout_height="wrap_content"
             android:text= "@string/longitude_value"
             android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            android:textColorHint="@android:color/black"
             android:textColor="@android:color/black" />
     </LinearLayout>
 

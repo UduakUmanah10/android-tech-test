@@ -24,8 +24,12 @@ class Pupil(
 
         @ColumnInfo(name = "longitude")
         val longitude: Double
+
 )
 
-class PupilList(
-        val items: MutableList<Pupil>
+data class PupilList(
+        val items: MutableList<Pupil> ,
+        val pageNumber:Int,
+        val itemCount:Int ,
+        val totalPages:Int
 )
