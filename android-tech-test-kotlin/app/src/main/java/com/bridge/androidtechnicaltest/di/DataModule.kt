@@ -5,7 +5,6 @@ import androidx.work.WorkManager
 import com.bridge.androidtechnicaltest.data.local.StudentsDao
 import com.bridge.androidtechnicaltest.data.local.StudentsDatabase
 import com.bridge.androidtechnicaltest.data.remote.PupilApiService
-import com.bridge.androidtechnicaltest.data.remote.StudentApiService
 import com.bridge.androidtechnicaltest.data.repository.StudentRepoImpl
 import dagger.Module
 import dagger.Provides
@@ -77,7 +76,7 @@ object DataModule {
     }
 
     @Provides
-    fun provideStudentsRepository(workManager: WorkManager, quoteDao:StudentsDao): StudentRepoImpl {
-        return StudentRepoImpl(workManager, quoteDao)
+    fun provideStudentsRepository(workManager: WorkManager, quoteDao:StudentsDao, pupilApi:PupilApiService): StudentRepoImpl {
+        return StudentRepoImpl(workManager, quoteDao, pupilApi)
     }
 }

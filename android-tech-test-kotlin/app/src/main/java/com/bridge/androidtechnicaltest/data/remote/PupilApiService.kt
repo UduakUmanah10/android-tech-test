@@ -1,7 +1,6 @@
 package com.bridge.androidtechnicaltest.data.remote
 
 import com.bridge.androidtechnicaltest.data.model.PupilsDto
-import com.bridge.androidtechnicaltest.db.PupilList
 import com.bridge.androidtechnicaltest.domain.model.PostPupil
 import com.bridge.androidtechnicaltest.domain.model.PupilResponse
 import com.bridge.androidtechnicaltest.domain.model.UpdatePupilViewModel

@@ -6,8 +6,8 @@ import javax.inject.Inject
 class GetAllStudents {
 }
 
-class GetAllQuotesFromDbUseCase @Inject constructor(private val studentRepository: StudentRepository) {
+class GetAllStudentUseCase @Inject constructor(private val studentRepository: StudentRepository) {
 
-    operator fun invoke() = studentRepository.getAllQuotes()
+    operator fun invoke() = studentRepository.getAllStudents()
 
 }

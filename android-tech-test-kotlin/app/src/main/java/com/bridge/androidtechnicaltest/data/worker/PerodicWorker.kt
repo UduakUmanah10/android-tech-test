@@ -25,6 +25,7 @@ class StudentPeriodicWorker @AssistedInject constructor(
 
             val response = apiService.getPupils()
             response.items.forEach { dto ->
+                println(dto)
                 studentsDao.upSert(dto.toPupilItem( PEROIDIC_WORK_REQUEST))
             }
 

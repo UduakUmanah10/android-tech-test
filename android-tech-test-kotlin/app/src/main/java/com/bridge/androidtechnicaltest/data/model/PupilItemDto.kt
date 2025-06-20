@@ -1,6 +1,6 @@
 package com.bridge.androidtechnicaltest.data.model
 
-data class ItemDto(
+data class PupilItemDto(
     val country: String,
     val image: String,
     val latitude: Double,
