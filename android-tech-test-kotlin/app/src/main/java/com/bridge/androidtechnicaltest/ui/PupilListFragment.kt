@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -13,13 +12,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bridge.androidtechnicaltest.AddStudent
-import com.bridge.androidtechnicaltest.R
 import com.bridge.androidtechnicaltest.databinding.FragmentPupillistBinding
 import com.bridge.androidtechnicaltest.domain.model.PupilItem
 import com.bridge.androidtechnicaltest.ui.adapters.StudentsAdapter
 import com.bridge.androidtechnicaltest.ui.viewmodel.StudentsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 val pupilList = listOf(
     PupilItem(
@@ -50,7 +47,7 @@ val pupilList = listOf(
 class PupilListFragment : Fragment() {
 
     private lateinit var  binding: FragmentPupillistBinding
-    //private lateinit var adapter:StudentsAdapter
+    private lateinit var studentAdapter:StudentsAdapter
     private lateinit var details: PupilDetailFragment
 
     val fragment = PupilDetailFragment()
@@ -63,10 +60,9 @@ class PupilListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
 
-
+          setUpRecyclerView()
 
         binding.fab.setOnClickListener{
 
@@ -74,7 +70,7 @@ class PupilListFragment : Fragment() {
             (activity as? MainActivity)?.navigateToFragment(AddStudent())
         }
 
-        binding.loadButton.setOnClickListener {
+        binding.search.setOnClickListener {
 
             Toast.makeText(requireContext(), "normal  clicked...", Toast.LENGTH_SHORT).show()
             (activity as? MainActivity)?.navigateToFragment(PupilDetailFragment())
@@ -83,7 +79,7 @@ class PupilListFragment : Fragment() {
 
 
 
-     //   setUpRecyclerView()
+
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -91,10 +87,10 @@ class PupilListFragment : Fragment() {
 
                     println("=======Collected state: $state============")
 
-                    //adapter.studentListDiffer.submitList(pupilList)
+                    studentAdapter.studentListDiffer.submitList(state.data)
 
                     if(state.data.isNotEmpty()){
-                        binding.textView.text = state.data[0].name
+                //        binding.textView.text = state.data[0].name
 
                     }
 
@@ -104,11 +100,15 @@ class PupilListFragment : Fragment() {
     }
 
 
-//    private fun setUpRecyclerView(){
-//        adapter = StudentsAdapter()
-//        binding.rvPupilList.apply {
-//            layoutManager = LinearLayoutManager(context)
-//            adapter =  adapter
-//        }
-//    }
+   private fun setUpRecyclerView(){
+       studentAdapter= StudentsAdapter()
+       binding.rvStudentList.apply {
+           adapter= studentAdapter
+           layoutManager = LinearLayoutManager(activity)
+
+       }
+
+
+   }
+
 }

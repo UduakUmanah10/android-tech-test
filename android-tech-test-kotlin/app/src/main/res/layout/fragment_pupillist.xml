@@ -1,96 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:padding="16dp"
-	android:background="?android:attr/windowBackground">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 
-	<!-- Page Number Input -->
-	<com.google.android.material.textfield.TextInputLayout
-		android:id="@+id/textInputLayout"
-		style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-		android:layout_width="0dp"
+	>
+
+	<LinearLayout
+		android:id="@+id/homeHeader"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		app:layout_constraintTop_toTopOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
+		android:layout_marginTop="15dp"
+
+        android:baselineAligned="false"
+        android:orientation="horizontal"
 		app:layout_constraintEnd_toEndOf="parent"
-		android:hint="@string/enter_a_page_number">
-
-		<com.google.android.material.textfield.TextInputEditText
-			android:id="@+id/inputField"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:inputType="number" />
-	</com.google.android.material.textfield.TextInputLayout>
-
-	<!-- Name Input -->
-	<com.google.android.material.textfield.TextInputLayout
-		android:id="@+id/nameInputLayout"
-		style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		app:layout_constraintTop_toBottomOf="@id/textInputLayout"
 		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent">
+
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1">
+
+			<EditText
+				android:id="@+id/searchNews"
+				android:layout_width="321dp"
+				android:layout_height="42dp"
+				android:fontFamily=""
+				android:hint="What are you looking for ?"
+				android:paddingStart="20dp"
+				android:paddingTop="10dp"
+				android:paddingEnd="20dp"
+				android:paddingBottom="10dp"
+				android:singleLine="true"
+				android:textColor="#919394"
+				android:textSize="15sp"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent" />
+
+			<ImageView
+				android:id="@+id/search"
+				android:layout_width="50dp"
+				android:layout_height="40dp"
+				android:layout_marginEnd="20dp"
+				android:src="@drawable/ic_search"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintTop_toTopOf="parent" />
+		</androidx.constraintlayout.widget.ConstraintLayout>
+	</LinearLayout>
+
+
+	<androidx.recyclerview.widget.RecyclerView
+		android:id="@+id/rv_studentList"
+		android:layout_width="409dp"
+		android:layout_height="669dp"
+		android:visibility="visible"
+		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
-		android:layout_marginTop="12dp"
-		android:hint="@string/Enter_Name">
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/homeHeader"
+		app:layout_constraintVertical_bias="0.0" />
 
-		<com.google.android.material.textfield.TextInputEditText
-			android:id="@+id/enterName"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:inputType="text" />
-	</com.google.android.material.textfield.TextInputLayout>
-
-
-
-	<!-- Load Button -->
-
-	<!-- Optional Error Text -->
-
-	<com.google.android.material.button.MaterialButton
-		android:id="@+id/loadButton"
-		style="@style/Widget.Material3.Button"
+	<ProgressBar
+		android:id="@+id/progressBaree"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="116dp"
-		android:layout_marginTop="152dp"
-		android:text="@string/Load_Data"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@id/nameInputLayout" />
-
-	<com.google.android.material.textview.MaterialTextView
-		android:id="@+id/name_value"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="@string/name_value"
-		android:textColor="@android:color/holo_red_dark"
-		android:textStyle="bold"
-		android:visibility="gone"
-		app:layout_constraintTop_toBottomOf="@id/loadButton"
-		app:layout_constraintStart_toStartOf="parent"
-		android:layout_marginTop="8dp" />
-
-	<!-- Progress Indicator -->
-	<com.google.android.material.progressindicator.CircularProgressIndicator
-		android:id="@+id/progressBar"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		app:layout_constraintTop_toBottomOf="@id/name_value"
-		app:layout_constraintStart_toStartOf="parent"
 		android:layout_marginTop="8dp"
-		android:visibility="gone"
+		android:visibility="visible"
 		app:indicatorColor="@color/colorPrimary"
 		app:indicatorSize="48dp"
-		app:trackThickness="4dp" />
+		app:trackThickness="4dp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="0.46"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="@+id/homeHeader" />
 
-	<!-- RecyclerView -->
 
-
-	<!-- Floating Action Button -->
 	<com.google.android.material.floatingactionbutton.FloatingActionButton
 		android:id="@+id/fab"
 		android:layout_width="wrap_content"
@@ -102,13 +93,5 @@
 		app:layout_constraintEnd_toEndOf="parent"
 		android:contentDescription="@string/Add" />
 
-	<TextView
-		android:id="@+id/textView"
-		android:layout_width="151dp"
-		android:layout_height="26dp"
-		android:text="TextView"
-		app:layout_constraintBottom_toTopOf="@+id/loadButton"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toEndOf="@+id/loadButton"
-		app:layout_constraintTop_toBottomOf="@+id/nameInputLayout" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,19 +14,15 @@ class StudentsAdapter : RecyclerView.Adapter<StudentsAdapter.StudentViewHolder>(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(student: PupilItem) {
+            binding.nameValue.text = student.name
+            binding.countryValue.text = student.country
+            binding.pupilId.text = student.pupilId.toString()
 
-            binding.apply {
-                nameValue.text = student.name
-                pupilId.text = student.pupilId.toString()
-                latitudeValue.text = student.toString()
-                longitudeValue.text = student.toString()
-                countryValue.text = student.country
+            binding.root.setOnClickListener {
+                itemClicked?.invoke(student)
             }
-
-
         }
     }
-
 
     private val studentDiffUtil = object : DiffUtil.ItemCallback<PupilItem>() {
         override fun areItemsTheSame(oldItem: PupilItem, newItem: PupilItem): Boolean {
@@ -36,37 +32,21 @@ class StudentsAdapter : RecyclerView.Adapter<StudentsAdapter.StudentViewHolder>(
         override fun areContentsTheSame(oldItem: PupilItem, newItem: PupilItem): Boolean {
             return oldItem == newItem
         }
-
     }
-
 
     val studentListDiffer = AsyncListDiffer(this, studentDiffUtil)
 
+    var itemClicked: ((PupilItem) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudentViewHolder {
-        return StudentViewHolder(
-
-            ViewHolderBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent, false
-
-            )
-        )
-    }
-
-    override fun getItemCount(): Int {
-        return studentListDiffer.currentList.size
+        val binding = ViewHolderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return StudentViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: StudentViewHolder, position: Int) {
         val student = studentListDiffer.currentList[position]
-
         holder.bind(student)
-        holder.itemView.setOnClickListener {
-            itemClicked?.invoke(student)
-        }
     }
 
-    var itemClicked: ((PupilItem) -> Unit)? = null
-
-
+    override fun getItemCount(): Int = studentListDiffer.currentList.size
 }
