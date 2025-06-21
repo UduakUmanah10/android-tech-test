@@ -9,6 +9,7 @@
     <string name="delete">"Delete pupil</string>
 
     <string name="Pupil_id">PupilId</string>
+    <string name="back">Back</string>
     <string name="Pupil_id_value">1234</string>
 
     <string name="name">Name</string>
@@ -44,8 +45,6 @@
     <string name="Update"> Update</string>
     <string name="Add"> Add </string>
     <string name="Create"> Create </string>
-
-
 
 
 </resources>
