@@ -19,46 +19,46 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
-class  StudentsViewModel  @Inject constructor(
+class StudentsViewModel @Inject constructor(
     private val getAllQuotesFromDbUseCase: GetAllStudentUseCase,
     private val setupPeriodicWorkRequestUseCase: StartPeriodicRequest
 ) : ViewModel() {
 
-    private val _Students = MutableStateFlow<List<PupilItem>>(emptyList())
-    private val Students = _Students.asStateFlow()
-
-    private  val _showError = Channel<Boolean>()
-    val showErrror = _showError.receiveAsFlow()
-
+    init {
+     //   setupPeriodicWorkRequestUseCase.invoke()
+    }
+    private val _showError = Channel<Boolean>()
+    val showError = _showError.receiveAsFlow()
 
     val uiState = getAllQuotesFromDbUseCase.invoke()
-        .map { it->
-            when(it){
-                is ApiResult.Failure<*> -> UiState(emptyList())
-                is ApiResult.Success<*> -> { UiState(emptyList())
-                 println(it.responseData)
-                    Log.d("OUTPUT", "$it")
+        .map { result ->
+            when (result) {
+                is ApiResult.Failure -> {
+
+                    println("====== failure ========")
+
+                    UiState(result.responseData ?: emptyList())
+                }
+
+                is ApiResult.Success -> {
+                    val data = result.responseData ?: emptyList()
+                    println("===========Success: $data=========")
+                    Log.d("OUTPUT", "$data")
+                    UiState(data)
                 }
             }
         }
-        .stateIn(viewModelScope, SharingStarted.Eagerly, UiState(emptyList()))
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Eagerly,
+            initialValue = UiState(emptyList())
+        )
 
-    init {
 
+    fun refresh() {
         setupPeriodicWorkRequestUseCase.invoke()
-
-
-
-
     }
-
-    fun get(){
-
-    }
-
-    //fun getQuote() = getQuoteUseCase.invoke()
 }
 
 data class UiState(val data: List<PupilItem>)

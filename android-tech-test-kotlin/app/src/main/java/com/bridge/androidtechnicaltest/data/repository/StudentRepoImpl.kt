@@ -12,9 +12,12 @@ import com.bridge.androidtechnicaltest.data.remote.PupilApiService
 import com.bridge.androidtechnicaltest.data.worker.StudentPeriodicWorker
 import com.bridge.androidtechnicaltest.domain.model.PupilItem
 import com.bridge.androidtechnicaltest.domain.repository.StudentRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import okhttp3.Dispatcher
 import retrofit2.HttpException
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -39,6 +42,7 @@ class StudentRepoImpl @Inject constructor(
             }catch (e:IOException){
                 e.printStackTrace()
                 val dataFromDatabase = studentsDao.getALLStudents().first()
+               println("======database  $dataFromDatabase=======")
                 emit(ApiResult.Failure(responseData = dataFromDatabase, errorMessage = "error in Io"))
                 return@flow
 
@@ -50,12 +54,14 @@ class StudentRepoImpl @Inject constructor(
             }
             catch (e:Exception){
                 e.printStackTrace()
+                val dataFromDatabase = studentsDao.getALLStudents().first()
+                emit(ApiResult.Failure(responseData = dataFromDatabase, errorMessage = "error in Io"))
                 return@flow
             }
 
             emit(ApiResult.Success(responseData = studentApi))
 
-        }
+        }.flowOn(Dispatchers.IO)
     }
 
     override fun deleteAllStudents() {
@@ -67,13 +73,21 @@ class StudentRepoImpl @Inject constructor(
     }
 
     override fun setupPeriodicWorkRequest() {
+
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
+
+
         val workRequest =
-            PeriodicWorkRequest.Builder(StudentPeriodicWorker::class.java, 15, TimeUnit.MINUTES)
+            PeriodicWorkRequest
+                .Builder(
+                StudentPeriodicWorker::class.java,
+                15,
+                TimeUnit.MINUTES)
                 .setConstraints(constraints)
                 .build()
+
         workManager.enqueueUniquePeriodicWork(
             "FETCH_UPDATED_STUDENT_DATA",
             ExistingPeriodicWorkPolicy.UPDATE,

@@ -34,17 +34,12 @@
             android:textColorHint="@android:color/black"
             app:layout_constraintTop_toBottomOf="@id/Image"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="16dp"
-              android:layout_marginEnd="16dp"
-            >
+            app:layout_constraintEnd_toEndOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="1dp"
-                android:autoSizeMaxTextSize="1000dp"
                 android:textColorHint="@android:color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -59,17 +54,12 @@
             app:layout_constraintTop_toBottomOf="@id/countryTextField"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            >
+            android:layout_marginTop="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="1dp"
-                android:autoSizeMaxTextSize="1000dp"
+                android:inputType="text"
                 android:textColorHint="@android:color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -84,18 +74,12 @@
             app:layout_constraintTop_toBottomOf="@id/EnterName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            >
+            android:layout_marginTop="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="1dp"
-                android:autoSizeMaxTextSize="700dp"
                 android:textColorHint="@android:color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -111,10 +95,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="24dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            >
+            android:layout_marginBottom="24dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/longitude"
@@ -122,18 +103,20 @@
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:textColorHint="@android:color/black"
-                android:textColor="@android:color/black" />
+                android:textColor="#2B2B2B" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Create Button -->
         <Button
-            android:id="@+id/filledButton"
+            android:id="@+id/create_new"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="52dp"
             android:text="@string/Create"
-            app:layout_constraintTop_toBottomOf="@id/EnterLongitude"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/EnterLongitude" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

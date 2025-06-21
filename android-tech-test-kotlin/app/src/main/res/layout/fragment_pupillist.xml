@@ -2,104 +2,93 @@
 <androidx.constraintlayout.widget.ConstraintLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:padding="16dp"
 	android:background="?android:attr/windowBackground">
 
-	<!-- Scrollable content container -->
-	<ScrollView
-		android:id="@+id/scrollView"
+	<!-- Page Number Input -->
+	<com.google.android.material.textfield.TextInputLayout
+		android:id="@+id/textInputLayout"
+		style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 		android:layout_width="0dp"
-		android:layout_height="0dp"
-		android:fillViewport="true"
+		android:layout_height="wrap_content"
 		app:layout_constraintTop_toTopOf="parent"
-		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintEnd_toEndOf="parent">
+		app:layout_constraintEnd_toEndOf="parent"
+		android:hint="@string/enter_a_page_number">
 
-			<LinearLayout
-				android:layout_width="393dp"
-				android:layout_height="612dp"
-				android:gravity="center_horizontal"
-				android:maxWidth="488dp"
-				android:orientation="vertical"
-				android:padding="24dp">
+		<com.google.android.material.textfield.TextInputEditText
+			android:id="@+id/inputField"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:inputType="number" />
+	</com.google.android.material.textfield.TextInputLayout>
 
-				<!-- Page Number -->
-				<com.google.android.material.textfield.TextInputLayout
-					android:id="@+id/textInputLayout"
-					style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginBottom="12dp"
-					android:hint="@string/enter_a_page_number"
-					android:textColorHint="@android:color/black"
-					app:errorEnabled="true">
+	<!-- Name Input -->
+	<com.google.android.material.textfield.TextInputLayout
+		android:id="@+id/nameInputLayout"
+		style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		app:layout_constraintTop_toBottomOf="@id/textInputLayout"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		android:layout_marginTop="12dp"
+		android:hint="@string/Enter_Name">
 
-					<com.google.android.material.textfield.TextInputEditText
-						android:id="@+id/inputField"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:inputType="number" />
-				</com.google.android.material.textfield.TextInputLayout>
+		<com.google.android.material.textfield.TextInputEditText
+			android:id="@+id/enterName"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:inputType="text" />
+	</com.google.android.material.textfield.TextInputLayout>
 
 
-				<com.google.android.material.textfield.TextInputLayout
-					style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginBottom="12dp"
-					android:hint="@string/Enter_Name"
-					android:textColorHint="@android:color/black"
-					>
 
-					<com.google.android.material.textfield.TextInputEditText
-						android:id="@+id/enterName"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:inputType="text" />
-				</com.google.android.material.textfield.TextInputLayout>
+	<!-- Load Button -->
 
-				<!-- Load Button -->
-				<com.google.android.material.button.MaterialButton
-					android:id="@+id/loadButton"
-					style="@style/Widget.Material3.Button"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="16dp"
-					android:visibility="visible"
-					android:text="@string/Load_Data"
+	<!-- Optional Error Text -->
 
-					/>
+	<com.google.android.material.button.MaterialButton
+		android:id="@+id/loadButton"
+		style="@style/Widget.Material3.Button"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="116dp"
+		android:layout_marginTop="152dp"
+		android:text="@string/Load_Data"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/nameInputLayout" />
 
-				<!-- Error Text -->
-				<com.google.android.material.textview.MaterialTextView
-					android:id="@+id/name_value"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="8dp"
-					android:text="@string/name_value"
-					android:textColor="@android:color/holo_red_dark"
-					android:textSize="16sp"
-					android:textStyle="bold"
-					android:visibility="gone" />
+	<com.google.android.material.textview.MaterialTextView
+		android:id="@+id/name_value"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/name_value"
+		android:textColor="@android:color/holo_red_dark"
+		android:textStyle="bold"
+		android:visibility="gone"
+		app:layout_constraintTop_toBottomOf="@id/loadButton"
+		app:layout_constraintStart_toStartOf="parent"
+		android:layout_marginTop="8dp" />
 
-				<!-- Progress -->
-				<com.google.android.material.progressindicator.CircularProgressIndicator
-					android:id="@+id/progressBar"
-					android:layout_width="wrap_content"
-					android:indeterminate="true"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="16dp"
-					android:visibility="visible"
-					app:indicatorColor="@color/colorPrimary"
-					app:indicatorSize="48dp"
-					app:trackThickness="4dp"
-					/>
-			</LinearLayout>
+	<!-- Progress Indicator -->
+	<com.google.android.material.progressindicator.CircularProgressIndicator
+		android:id="@+id/progressBar"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		app:layout_constraintTop_toBottomOf="@id/name_value"
+		app:layout_constraintStart_toStartOf="parent"
+		android:layout_marginTop="8dp"
+		android:visibility="gone"
+		app:indicatorColor="@color/colorPrimary"
+		app:indicatorSize="48dp"
+		app:trackThickness="4dp" />
 
-	</ScrollView>
+	<!-- RecyclerView -->
+
 
 	<!-- Floating Action Button -->
 	<com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -107,20 +96,19 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_margin="16dp"
-		android:contentDescription="@string/Add"
 		app:srcCompat="@drawable/ic_add"
 		app:backgroundTint="?attr/colorPrimary"
 		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toEndOf="parent" />
+		app:layout_constraintEnd_toEndOf="parent"
+		android:contentDescription="@string/Add" />
 
-	<!-- RecyclerView -->
-	<androidx.recyclerview.widget.RecyclerView
-		android:id="@+id/pupil_list"
-		android:layout_width="0dp"
-		android:layout_height="0dp"
-		android:visibility="gone"
-		app:layout_constraintTop_toTopOf="parent"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintEnd_toEndOf="parent" />
+	<TextView
+		android:id="@+id/textView"
+		android:layout_width="151dp"
+		android:layout_height="26dp"
+		android:text="TextView"
+		app:layout_constraintBottom_toTopOf="@+id/loadButton"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toEndOf="@+id/loadButton"
+		app:layout_constraintTop_toBottomOf="@+id/nameInputLayout" />
 </androidx.constraintlayout.widget.ConstraintLayout>
