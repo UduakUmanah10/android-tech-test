@@ -6,7 +6,7 @@
     <string name="pupil_detail_country">Country</string>
     <string name="Location">Longitude</string>
     <string name="sync">Sync</string>
-    <string name="delete">"Delete pupil</string>
+    <string name="edit">"Delete pupil</string>
 
     <string name="Pupil_id">PupilId</string>
     <string name="back">Back</string>

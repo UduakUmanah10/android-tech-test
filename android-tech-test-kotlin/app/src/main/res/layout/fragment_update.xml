@@ -24,15 +24,16 @@
             android:scaleType="centerCrop"
             android:layout_marginBottom="24dp" />
 
-        <!-- First Text Field -->
+        <!-- Country Text Field -->
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/countryTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/Country"
             android:layout_marginBottom="12dp"
             android:textColorHint="@android:color/black"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            >
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/enterCountry"
@@ -42,15 +43,16 @@
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Second Text Field -->
+        <!-- Name Text Field -->
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nameTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/Enter_Name"
             android:layout_marginBottom="12dp"
             android:textColorHint="@android:color/black"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            >
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/enterName"
@@ -60,15 +62,16 @@
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Third Text Field -->
+        <!-- Latitude Text Field -->
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/latitudeTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/Enter_Latitude"
             android:layout_marginBottom="12dp"
             android:textColorHint="@android:color/black"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            >
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/latitude"
@@ -78,15 +81,16 @@
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Fourth Text Field -->
+        <!-- Longitude Text Field -->
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/longitudeTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/Enter_Longitude"
             android:layout_marginBottom="24dp"
             android:textColorHint="@android:color/black"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            >
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/longitude"
@@ -95,7 +99,6 @@
                 android:textColorHint="@android:color/black"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
-
 
         <!-- Buttons Row -->
         <LinearLayout
@@ -122,7 +125,7 @@
                 android:text="@string/Delete"
                 android:layout_marginStart="8dp"
                 android:textColorHint="@android:color/black"
-                app:backgroundTint ="@color/deleteButton"/>
+                app:backgroundTint="@color/deleteButton" />
         </LinearLayout>
 
     </LinearLayout>

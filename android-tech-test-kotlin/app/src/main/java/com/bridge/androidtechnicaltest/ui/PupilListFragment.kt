@@ -48,7 +48,6 @@ class PupilListFragment : Fragment() {
 
     private lateinit var  binding: FragmentPupillistBinding
     private lateinit var studentAdapter:StudentsAdapter
-    private lateinit var details: PupilDetailFragment
 
     val fragment = PupilDetailFragment()
 
@@ -75,6 +74,36 @@ class PupilListFragment : Fragment() {
             Toast.makeText(requireContext(), "normal  clicked...", Toast.LENGTH_SHORT).show()
             (activity as? MainActivity)?.navigateToFragment(PupilDetailFragment())
 
+        }
+
+        studentAdapter.onDeleteClick = { pupil ->
+
+            val bundle = Bundle().apply {
+                putString("name", pupil.name)
+                putString("country", pupil.country)
+                putString("image", pupil.image)
+                putDouble("latitude", pupil.latitude)
+                putDouble("longitude", pupil.longitude)
+                putInt("pupilId", pupil.pupilId)
+            }
+
+            Toast.makeText(requireContext(), "Deleted: ${pupil.name}", Toast.LENGTH_SHORT).show()
+            (activity as? MainActivity)?.navigateToFragment(UpdateFragment(), bundle)
+            // Handle deletion logic here
+        }
+        studentAdapter.itemClicked= { pupil ->
+
+            val bundle = Bundle().apply {
+                putString("name", pupil.name)
+                putString("country", pupil.country)
+                putString("image", pupil.image)
+                putDouble("latitude", pupil.latitude)
+                putDouble("longitude", pupil.longitude)
+                putInt("pupilId", pupil.pupilId)
+            }
+            Toast.makeText(requireContext(), "Deleted: ${pupil.name}", Toast.LENGTH_SHORT).show()
+            (activity as? MainActivity)?.navigateToFragment(PupilDetailFragment(), bundle)
+            // Handle deletion logic here
         }
 
 

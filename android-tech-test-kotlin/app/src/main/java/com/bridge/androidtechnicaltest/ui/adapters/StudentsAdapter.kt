@@ -10,10 +10,19 @@ import com.bridge.androidtechnicaltest.domain.model.PupilItem
 
 class StudentsAdapter : RecyclerView.Adapter<StudentsAdapter.StudentViewHolder>() {
 
+    var onDeleteClick: ((PupilItem) -> Unit)? = null
+
+    var itemClicked: ((PupilItem) -> Unit)? = null
+
+
     inner class StudentViewHolder(private val binding: ViewHolderBinding) :
+
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(student: PupilItem) {
+
+            binding.latitudeValue.text = student.latitude.toString()
+            binding.longitudeValue.text = student.longitude.toString()
             binding.nameValue.text = student.name
             binding.countryValue.text = student.country
             binding.pupilId.text = student.pupilId.toString()
@@ -21,6 +30,11 @@ class StudentsAdapter : RecyclerView.Adapter<StudentsAdapter.StudentViewHolder>(
             binding.root.setOnClickListener {
                 itemClicked?.invoke(student)
             }
+
+            binding.btnEdit.setOnClickListener {
+                onDeleteClick?.invoke(student)
+            }
+
         }
     }
 
@@ -36,7 +50,6 @@ class StudentsAdapter : RecyclerView.Adapter<StudentsAdapter.StudentViewHolder>(
 
     val studentListDiffer = AsyncListDiffer(this, studentDiffUtil)
 
-    var itemClicked: ((PupilItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudentViewHolder {
         val binding = ViewHolderBinding.inflate(LayoutInflater.from(parent.context), parent, false)

@@ -27,7 +27,7 @@
 			<EditText
 				android:id="@+id/searchNews"
 				android:layout_width="321dp"
-				android:layout_height="42dp"
+				android:layout_height="50dp"
 				android:fontFamily=""
 				android:hint="What are you looking for ?"
 				android:paddingStart="20dp"
@@ -56,7 +56,7 @@
 
 	<androidx.recyclerview.widget.RecyclerView
 		android:id="@+id/rv_studentList"
-		android:layout_width="409dp"
+		android:layout_width="match_parent"
 		android:layout_height="669dp"
 		android:visibility="visible"
 		app:layout_constraintBottom_toBottomOf="parent"
