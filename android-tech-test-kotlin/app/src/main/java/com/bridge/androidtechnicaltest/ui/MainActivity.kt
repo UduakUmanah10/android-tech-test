@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.bridge.androidtechnicaltest.R
 import com.bridge.androidtechnicaltest.databinding.ActivityMainBinding
+import com.bridge.androidtechnicaltest.ui.viewmodel.AddStudents
+import com.bridge.androidtechnicaltest.ui.viewmodel.EditStudent
 import com.bridge.androidtechnicaltest.ui.viewmodel.StudentsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,6 +20,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val viewModel: StudentsViewModel by viewModels()
+    private val addStudent: AddStudents by viewModels()
+    private val EditStudent: EditStudent by viewModels()
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,9 +46,14 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun navigateToFragment(fragment: Fragment) {
+    fun navigateToFragment(fragment: Fragment, args: Bundle? = null) {
+        args?.let {
+            fragment.arguments = it
+        }
+
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)
+            .addToBackStack(null) // Optional: adds the fragment to the back stack
             .commit()
     }
 }

@@ -34,12 +34,17 @@
             android:textColorHint="@android:color/black"
             app:layout_constraintTop_toBottomOf="@id/Image"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:errorEnabled="true"
+            app:helperTextEnabled="true"
+            app:helperText="Please enter a country"
+            app:errorTextColor="@android:color/holo_red_dark">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/countryInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autoSizeTextType="uniform"
+                android:inputType="text"
                 android:textColorHint="@android:color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -54,9 +59,14 @@
             app:layout_constraintTop_toBottomOf="@id/countryTextField"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="16dp"
+            app:errorEnabled="true"
+            app:helperTextEnabled="true"
+            app:helperText="Please enter a name"
+            app:errorTextColor="@android:color/holo_red_dark">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nameInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
@@ -74,12 +84,17 @@
             app:layout_constraintTop_toBottomOf="@id/EnterName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="16dp"
+            app:errorEnabled="true"
+            app:helperTextEnabled="true"
+            app:helperText="Enter a valid latitude"
+            app:errorTextColor="@android:color/holo_red_dark">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/latitudeInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
+                android:inputType="numberDecimal|numberSigned"
                 android:textColorHint="@android:color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -95,13 +110,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="24dp">
+            android:layout_marginBottom="24dp"
+            app:errorEnabled="true"
+            app:helperTextEnabled="true"
+            app:helperText="Enter a valid longitude"
+            app:errorTextColor="@android:color/holo_red_dark">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/longitude"
+                android:id="@+id/longitudeInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
+                android:inputType="numberDecimal|numberSigned"
                 android:textColorHint="@android:color/black"
                 android:textColor="#2B2B2B" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -114,7 +133,6 @@
             android:layout_marginTop="52dp"
             android:text="@string/Create"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/EnterLongitude" />
 
