@@ -1,8 +1,8 @@
 package com.bridge.androidtechnicaltest.data.remote
 
-import com.bridge.androidtechnicaltest.data.model.PupilsDto
+import com.bridge.androidtechnicaltest.data.remote.model.PupilsDto
 import com.bridge.androidtechnicaltest.domain.model.PostPupil
-import com.bridge.androidtechnicaltest.domain.model.PupilResponse
+import com.bridge.androidtechnicaltest.data.remote.model.PupilDtoResponse
 import com.bridge.androidtechnicaltest.domain.model.UpdatePupilViewModel
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -18,18 +18,18 @@ interface PupilApiService {
 
 
     @GET("pupils/{id}")
-   suspend fun getPupilsById(@Query("page") id: Int ):  PupilResponse
+   suspend fun getPupilsById(@Query("page") id: Int ): PupilDtoResponse
 
 
     @POST("pupils")
-    suspend  fun createPupil(@Body pupil: PostPupil): PupilResponse
+    suspend  fun createPupil(@Body pupil: PostPupil): PupilDtoResponse
 
 
     @PUT("pupils/{id}")
     suspend fun updatePupil(
         @Path("id") id: Int,
         @Body updatedPupil: UpdatePupilViewModel
-    ):  PupilResponse
+    ): PupilDtoResponse
 
 
 

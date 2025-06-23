@@ -1,6 +1,6 @@
-package com.bridge.androidtechnicaltest.domain.model
+package com.bridge.androidtechnicaltest.data.remote.model
 
-data class  PupilResponse(
+data class  PupilDtoResponse(
     val pupilId: Int,
     val country: String,
     val name: String,

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.bridge.androidtechnicaltest.data.local.StudentsDao
+import com.bridge.androidtechnicaltest.data.local.PupilsDao
 import com.bridge.androidtechnicaltest.data.mappers.toPupilItem
 import com.bridge.androidtechnicaltest.data.remote.PupilApiService
 import dagger.assisted.Assisted
@@ -15,14 +15,14 @@ class FetchWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted private val workerParameters: WorkerParameters,
     private val apiService: PupilApiService,
-    private val studentsDao: StudentsDao
+    private val studentsDao: PupilsDao
 ) : CoroutineWorker(context, workerParameters) {
 
     override suspend fun doWork(): Result {
         return try {
 
             val response = apiService.getPupils()
-            response.items.forEach { dto ->
+            response.items!!.forEach { dto ->
                 studentsDao.upSert(dto.toPupilItem(""))
             }
 

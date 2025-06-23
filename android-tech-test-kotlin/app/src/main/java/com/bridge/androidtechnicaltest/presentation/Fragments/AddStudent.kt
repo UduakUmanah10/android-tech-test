@@ -1,4 +1,4 @@
-package com.bridge.androidtechnicaltest
+package com.bridge.androidtechnicaltest.presentation.Fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,9 +8,8 @@ import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import com.bridge.androidtechnicaltest.databinding.FragmentAddStudentBinding
-import com.bridge.androidtechnicaltest.ui.MainActivity
-import com.bridge.androidtechnicaltest.ui.PupilListFragment
-import com.bridge.androidtechnicaltest.ui.viewmodel.AddStudents
+import com.bridge.androidtechnicaltest.presentation.MainActivity
+import com.bridge.androidtechnicaltest.presentation.viewmodel.AddStudents
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

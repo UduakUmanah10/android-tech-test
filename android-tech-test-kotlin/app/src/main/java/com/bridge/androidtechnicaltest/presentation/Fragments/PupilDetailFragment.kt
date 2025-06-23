@@ -1,4 +1,4 @@
-package com.bridge.androidtechnicaltest.ui
+package com.bridge.androidtechnicaltest.presentation.Fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -6,9 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.bridge.androidtechnicaltest.R
 import com.bridge.androidtechnicaltest.databinding.FragmentPupildetailBinding
-import com.bridge.androidtechnicaltest.databinding.FragmentPupillistBinding
+import com.bridge.androidtechnicaltest.presentation.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

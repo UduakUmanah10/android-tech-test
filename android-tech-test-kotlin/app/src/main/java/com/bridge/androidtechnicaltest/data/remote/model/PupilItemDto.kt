@@ -1,6 +1,6 @@
-package com.bridge.androidtechnicaltest.domain.model
+package com.bridge.androidtechnicaltest.data.remote.model
 
-data class Pupils(
+data class PupilItemDto(
     val country: String?,
     val image: String?,
     val latitude: Double?,

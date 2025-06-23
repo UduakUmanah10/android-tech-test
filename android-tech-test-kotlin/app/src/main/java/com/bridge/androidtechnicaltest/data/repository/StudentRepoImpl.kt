@@ -5,19 +5,18 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
-import com.bridge.androidtechnicaltest.data.local.StudentsDao
+import com.bridge.androidtechnicaltest.data.local.PupilsDao
 import com.bridge.androidtechnicaltest.data.mappers.toPupilItem
 import com.bridge.androidtechnicaltest.data.remote.ApiResult
 import com.bridge.androidtechnicaltest.data.remote.PupilApiService
 import com.bridge.androidtechnicaltest.data.worker.StudentPeriodicWorker
-import com.bridge.androidtechnicaltest.domain.model.PupilItem
-import com.bridge.androidtechnicaltest.domain.repository.StudentRepository
+import com.bridge.androidtechnicaltest.data.local.PupilItemEntity
+import com.bridge.androidtechnicaltest.domain.repository.PupilRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import okhttp3.Dispatcher
 import retrofit2.HttpException
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -25,36 +24,36 @@ import javax.inject.Inject
 
 class StudentRepoImpl @Inject constructor(
     private val workManager: WorkManager,
-    private val studentsDao: StudentsDao,
+    private val studentsDao: PupilsDao,
     private val Api: PupilApiService
-): StudentRepository {
+): PupilRepository {
 
     override fun getStudent() {
         TODO("Not yet implemented")
     }
 
-    override fun getAllStudents(): Flow<ApiResult<List<PupilItem>>> {
+    override fun getAllStudents(): Flow<ApiResult<List<PupilItemEntity>>> {
         return flow{
 
            val studentApi = try {
-                Api.getPupils().items.map { it.toPupilItem("") }
+                Api.getPupils().items!!.map { it.toPupilItem("") }
 
             }catch (e:IOException){
                 e.printStackTrace()
-                val dataFromDatabase = studentsDao.getALLStudents().first()
+                val dataFromDatabase = studentsDao.getALLStudents()
                println("======database  $dataFromDatabase=======")
                 emit(ApiResult.Failure(responseData = dataFromDatabase, errorMessage = "error in Io"))
                 return@flow
 
             }
             catch (e:HttpException){
-                val dataFromDatabase = studentsDao.getALLStudents().first()
+                val dataFromDatabase = studentsDao.getALLStudents()
                 emit(ApiResult.Failure(responseData = dataFromDatabase, errorMessage = "error in Io"))
                 return@flow
             }
             catch (e:Exception){
                 e.printStackTrace()
-                val dataFromDatabase = studentsDao.getALLStudents().first()
+                val dataFromDatabase = studentsDao.getALLStudents()
                 emit(ApiResult.Failure(responseData = dataFromDatabase, errorMessage = "error in Io"))
                 return@flow
             }

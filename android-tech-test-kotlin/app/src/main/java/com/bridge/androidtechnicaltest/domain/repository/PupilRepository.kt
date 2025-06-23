@@ -1,16 +1,16 @@
 package com.bridge.androidtechnicaltest.domain.repository
 
 import com.bridge.androidtechnicaltest.data.remote.ApiResult
-import com.bridge.androidtechnicaltest.domain.model.PupilItem
+import com.bridge.androidtechnicaltest.data.local.PupilItemEntity
 import kotlinx.coroutines.flow.Flow
 
 
 
-interface StudentRepository{
+interface PupilRepository{
 
     fun getStudent()
 
-    fun getAllStudents(): Flow<ApiResult<List<PupilItem>>>
+    fun getAllStudents(): Flow<ApiResult<List<PupilItemEntity>>>
 
     fun deleteAllStudents()
 

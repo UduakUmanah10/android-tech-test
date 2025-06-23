@@ -1,4 +1,4 @@
-package com.bridge.androidtechnicaltest.ui
+package com.bridge.androidtechnicaltest.presentation
 
 import android.os.Bundle
 import android.view.Menu
@@ -8,9 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.bridge.androidtechnicaltest.R
 import com.bridge.androidtechnicaltest.databinding.ActivityMainBinding
-import com.bridge.androidtechnicaltest.ui.viewmodel.AddStudents
-import com.bridge.androidtechnicaltest.ui.viewmodel.EditStudent
-import com.bridge.androidtechnicaltest.ui.viewmodel.StudentsViewModel
+import com.bridge.androidtechnicaltest.presentation.Fragments.PupilListFragment
+import com.bridge.androidtechnicaltest.presentation.viewmodel.AddStudents
+import com.bridge.androidtechnicaltest.presentation.viewmodel.EditStudent
+import com.bridge.androidtechnicaltest.presentation.viewmodel.StudentsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
