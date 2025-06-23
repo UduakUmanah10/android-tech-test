@@ -1,4 +1,4 @@
-package com.bridge.androidtechnicaltest.ui
+package com.bridge.androidtechnicaltest.presentation.Fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,15 +11,15 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bridge.androidtechnicaltest.AddStudent
 import com.bridge.androidtechnicaltest.databinding.FragmentPupillistBinding
-import com.bridge.androidtechnicaltest.domain.model.PupilItem
-import com.bridge.androidtechnicaltest.ui.adapters.StudentsAdapter
-import com.bridge.androidtechnicaltest.ui.viewmodel.StudentsViewModel
+import com.bridge.androidtechnicaltest.data.local.PupilItemEntity
+import com.bridge.androidtechnicaltest.presentation.MainActivity
+import com.bridge.androidtechnicaltest.presentation.adapters.StudentsAdapter
+import com.bridge.androidtechnicaltest.presentation.viewmodel.StudentsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 val pupilList = listOf(
-    PupilItem(
+    PupilItemEntity(
         country = "Amsterdam",
         image = "http://lorempixel.com/640/480/sports?name=Abbigail Doyle",
         latitude = 0.0,
@@ -30,7 +30,7 @@ val pupilList = listOf(
         time = 1750465100588,
         offlineDataOperation = 0
     ),
-    PupilItem(
+    PupilItemEntity(
         country = "Kenya",
         image = "http://lorempixel.com/640/480/nature?name=Abbigail Yundt",
         latitude = -48.4534,
@@ -47,7 +47,7 @@ val pupilList = listOf(
 class PupilListFragment : Fragment() {
 
     private lateinit var  binding: FragmentPupillistBinding
-    private lateinit var studentAdapter:StudentsAdapter
+    private lateinit var studentAdapter: StudentsAdapter
 
     val fragment = PupilDetailFragment()
 
@@ -82,8 +82,8 @@ class PupilListFragment : Fragment() {
                 putString("name", pupil.name)
                 putString("country", pupil.country)
                 putString("image", pupil.image)
-                putDouble("latitude", pupil.latitude)
-                putDouble("longitude", pupil.longitude)
+               // putDouble("latitude", pupil.latitude)
+              //  putDouble("longitude", pupil.longitude)
                 putInt("pupilId", pupil.pupilId)
             }
 
@@ -97,8 +97,8 @@ class PupilListFragment : Fragment() {
                 putString("name", pupil.name)
                 putString("country", pupil.country)
                 putString("image", pupil.image)
-                putDouble("latitude", pupil.latitude)
-                putDouble("longitude", pupil.longitude)
+               // putDouble("latitude", pupil.latitude)
+             //   putDouble("longitude", pupil.longitude)
                 putInt("pupilId", pupil.pupilId)
             }
             Toast.makeText(requireContext(), "Deleted: ${pupil.name}", Toast.LENGTH_SHORT).show()

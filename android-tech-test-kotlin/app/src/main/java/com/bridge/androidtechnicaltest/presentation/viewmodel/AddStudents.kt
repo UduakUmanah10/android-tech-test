@@ -1,11 +1,11 @@
-package com.bridge.androidtechnicaltest.ui.viewmodel
+package com.bridge.androidtechnicaltest.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class EditStudent:ViewModel() {
+class AddStudents: ViewModel() {
 
 
     private val _InputValue = MutableStateFlow(inputValue())
@@ -45,15 +45,15 @@ class EditStudent:ViewModel() {
         }
     }
 
-
-
-
-    fun  deleteStudent(){
+    fun create(){
 
     }
 
-    fun updateStudent(){
-
+    fun delete(){
+        _InputValue.value= inputValue()
 
     }
+
+
 }
+

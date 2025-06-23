@@ -1,4 +1,4 @@
-package com.bridge.androidtechnicaltest.ui.viewmodel
+package com.bridge.androidtechnicaltest.presentation.viewmodel
 
 data class inputValue(
     val country: String? ="",

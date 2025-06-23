@@ -1,4 +1,4 @@
-package com.bridge.androidtechnicaltest.ui.adapters
+package com.bridge.androidtechnicaltest.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,20 +6,20 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bridge.androidtechnicaltest.databinding.ViewHolderBinding
-import com.bridge.androidtechnicaltest.domain.model.PupilItem
+import com.bridge.androidtechnicaltest.data.local.PupilItemEntity
 
 class StudentsAdapter : RecyclerView.Adapter<StudentsAdapter.StudentViewHolder>() {
 
-    var onDeleteClick: ((PupilItem) -> Unit)? = null
+    var onDeleteClick: ((PupilItemEntity) -> Unit)? = null
 
-    var itemClicked: ((PupilItem) -> Unit)? = null
+    var itemClicked: ((PupilItemEntity) -> Unit)? = null
 
 
     inner class StudentViewHolder(private val binding: ViewHolderBinding) :
 
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(student: PupilItem) {
+        fun bind(student: PupilItemEntity) {
 
             binding.latitudeValue.text = student.latitude.toString()
             binding.longitudeValue.text = student.longitude.toString()
@@ -38,12 +38,12 @@ class StudentsAdapter : RecyclerView.Adapter<StudentsAdapter.StudentViewHolder>(
         }
     }
 
-    private val studentDiffUtil = object : DiffUtil.ItemCallback<PupilItem>() {
-        override fun areItemsTheSame(oldItem: PupilItem, newItem: PupilItem): Boolean {
+    private val studentDiffUtil = object : DiffUtil.ItemCallback<PupilItemEntity>() {
+        override fun areItemsTheSame(oldItem: PupilItemEntity, newItem: PupilItemEntity): Boolean {
             return oldItem.pupilId == newItem.pupilId
         }
 
-        override fun areContentsTheSame(oldItem: PupilItem, newItem: PupilItem): Boolean {
+        override fun areContentsTheSame(oldItem: PupilItemEntity, newItem: PupilItemEntity): Boolean {
             return oldItem == newItem
         }
     }

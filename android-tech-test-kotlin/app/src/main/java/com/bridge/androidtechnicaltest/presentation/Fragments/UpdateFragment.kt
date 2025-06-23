@@ -1,4 +1,4 @@
-package com.bridge.androidtechnicaltest.ui
+package com.bridge.androidtechnicaltest.presentation.Fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import com.bridge.androidtechnicaltest.databinding.FragmentUpdateBinding
-import com.bridge.androidtechnicaltest.ui.viewmodel.EditStudent
+import com.bridge.androidtechnicaltest.presentation.viewmodel.EditStudent
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -60,6 +60,8 @@ class UpdateFragment : Fragment() {
                 binding.countryTextInputLayout.error = null
             }
         }
+
+
 
         binding.enterName.doOnTextChanged { text, _, _, _ ->
             viewModel.enterName(text.toString())
