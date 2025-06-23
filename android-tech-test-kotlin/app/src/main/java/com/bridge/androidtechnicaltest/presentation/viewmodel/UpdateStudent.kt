@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class EditStudent:ViewModel() {
+class UpdateStudent:ViewModel() {
 
 
     private val _InputValue = MutableStateFlow(inputValue())

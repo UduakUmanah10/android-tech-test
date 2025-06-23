@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import com.bridge.androidtechnicaltest.databinding.FragmentUpdateBinding
-import com.bridge.androidtechnicaltest.presentation.viewmodel.EditStudent
+import com.bridge.androidtechnicaltest.presentation.viewmodel.UpdateStudent
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -17,7 +17,7 @@ class UpdateFragment : Fragment() {
 
     private lateinit var binding: FragmentUpdateBinding
 
-    private val viewModel: EditStudent by activityViewModels()
+    private val viewModel: UpdateStudent by activityViewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +51,6 @@ class UpdateFragment : Fragment() {
         binding.latitude.setText(latitude?.toString())
         binding.longitude.setText(longitude?.toString())
 
-// Real-time validation for each field
         binding.enterCountry.doOnTextChanged { text, _, _, _ ->
             viewModel.enterCountry(text.toString())
             if (text.isNullOrBlank()) {

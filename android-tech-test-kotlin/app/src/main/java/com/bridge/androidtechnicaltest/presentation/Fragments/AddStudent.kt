@@ -1,24 +1,22 @@
 package com.bridge.androidtechnicaltest.presentation.Fragments
 
 import android.os.Bundle
+import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
+import com.bridge.androidtechnicaltest.R
 import com.bridge.androidtechnicaltest.databinding.FragmentAddStudentBinding
 import com.bridge.androidtechnicaltest.presentation.MainActivity
 import com.bridge.androidtechnicaltest.presentation.viewmodel.AddStudents
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 
 class AddStudent : Fragment() {
-    // TODO: Rename and change types of parameters
+
 
     private lateinit var binding: FragmentAddStudentBinding
 
@@ -39,40 +37,73 @@ class AddStudent : Fragment() {
 
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.createNew.setOnClickListener {
             (activity as? MainActivity)?.navigateToFragment(PupilListFragment())
         }
+
         binding.countryTextField.editText?.doOnTextChanged { text, _, _, _ ->
-            viewMode.enterCountry(text.toString())
+            val country = text.toString().trim()
+            if (country.isBlank()) {
+                binding.countryTextField.error = getString(R.string.Country_cannot_be_empty)
+            } else {
+                binding.countryTextField.error = null
+                viewMode.enterCountry(country)
+            }
         }
 
         binding.EnterName.editText?.doOnTextChanged { text, _, _, _ ->
-            viewMode.enterName(text.toString())
+            val name = text.toString().trim()
+            if (name.isBlank()) {
+                binding.EnterName.error =getString(R.string.name_cannot_be_empty)
+            } else {
+                binding.EnterName.error = null
+                viewMode.enterName(name)
+            }
         }
-
 
         binding.EnterLatitude.editText?.doOnTextChanged { text, _, _, _ ->
             val lat = text.toString().toDoubleOrNull()
-            if (lat != null) {
+            if (lat == null) {
+                binding.EnterLatitude.error = getString(R.string.Latitude_must_be_a_valid_number)
+            } else {
+                binding.EnterLatitude.error = null
                 viewMode.enterLatitude(lat)
             }
         }
 
-
         binding.EnterLongitude.editText?.doOnTextChanged { text, _, _, _ ->
             val lon = text.toString().toDoubleOrNull()
-            if (lon != null) {
+            if (lon == null) {
+                binding.EnterLongitude.error = getString(R.string.Longitude_must_be_a_valid_number)
+            } else {
+                binding.EnterLongitude.error = null
                 viewMode.enterLongitude(lon)
             }
         }
 
-        binding
+        binding.EnterPupilId.editText?.doOnTextChanged { text, _, _, _ ->
+            val pupilId = text.toString().toDoubleOrNull()
+            if (pupilId == null) {
+                binding.EnterPupilId.error = getString(R.string.pupil_id_must_be_valid_number)
+            } else {
+                binding.EnterPupilId.error = null
+                viewMode.enterPupilId(pupilId)
+            }
+        }
+
+        binding.ImageUrl.editText?.doOnTextChanged { text, _, _, _ ->
+            val url = text.toString().trim()
+            if (url.isEmpty() || !Patterns.WEB_URL.matcher(url).matches()) {
+                binding.ImageUrl.error = getString(R.string.invalid_image_url)
+            } else {
+                binding.ImageUrl.error = null
+                viewMode.enterImageUrl(url)
+            }
+        }
 
     }
-
 
 }
 

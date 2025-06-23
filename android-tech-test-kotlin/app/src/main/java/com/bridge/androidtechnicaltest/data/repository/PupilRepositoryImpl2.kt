@@ -4,6 +4,7 @@ import androidx.work.WorkManager
 import com.bridge.androidtechnicaltest.data.local.PupilItemEntity
 import com.bridge.androidtechnicaltest.data.local.PupilsDao
 import com.bridge.androidtechnicaltest.data.mappers.toPupil
+import com.bridge.androidtechnicaltest.data.mappers.toPupilItemDto
 import com.bridge.androidtechnicaltest.data.mappers.toPupilsEntity
 import com.bridge.androidtechnicaltest.data.remote.PupilApiService
 import com.bridge.androidtechnicaltest.data.remote.model.PupilItemDto
@@ -18,7 +19,6 @@ import java.io.IOException
 import javax.inject.Inject
 
 class PupilRepositoryImpl2 @Inject constructor(
-    private val workManager: WorkManager,
     private val studentsDao: PupilsDao,
     private val Api: PupilApiService
 ) : PupilRepository1 {
@@ -44,10 +44,10 @@ class PupilRepositoryImpl2 @Inject constructor(
             )
         }
 
+
         val pageSize = 20
         val paginatedItems = mappedPupils.drop((nextPageCount - 1) * pageSize).take(pageSize)
         val totalPages = (mappedPupils.size + pageSize - 1) / pageSize
-
         return PupilList(
             itemCount = paginatedItems.size,
             items = paginatedItems,
@@ -56,26 +56,11 @@ class PupilRepositoryImpl2 @Inject constructor(
         )
     }
 
-    suspend fun getStudentByIdLocally(studentId: Int): Pupils? {
-        val entity = studentsDao.getStudentById(studentId)
-        return entity?.let {
-            Pupils(
-                country = it.country,
-                image = it.image,
-                latitude = it.latitude,
-                longitude = it.longitude,
-                name = it.name,
-                pupilId = it.pupilId
-            )
-        }
-    }
 
 
-    suspend fun getStudentsOnline(nextPageCount: Int): PupilList {
+    private suspend fun getStudentsOnline(nextPageCount: Int): PupilList {
         val remotePupils = Api.getPupils()
-
         println(tag + " getStudentsLocally" + remotePupils.items?.size)
-
         return PupilList(
             itemCount = null,
             pageNumber = null,
@@ -85,8 +70,19 @@ class PupilRepositoryImpl2 @Inject constructor(
     }
 
 
-    override suspend fun getPupil(): Flow<PupilResult<PupilList>> {
+    private suspend fun updateStudentsOnline(input: Pupils): PupilItemDto {
+        val requestInput = input.toPupilItemDto()
+        val remotePupils = Api.updatePupil(requestInput.pupilId!!, requestInput)
+        return remotePupils
 
+    }
+
+    private suspend fun deleteStudentOnline(input: Int): Unit {
+        return Api.deletePupil(input)
+    }
+
+
+    override suspend fun getPupil(): Flow<PupilResult<PupilList>> {
         return flow {
             val remoteStudent = try {
 
@@ -103,9 +99,7 @@ class PupilRepositoryImpl2 @Inject constructor(
                     401 -> println(tag + "get Student remote exception" + http.message)
                     503 -> println(tag + "get Student remote exception" + http.message)
                     404 -> println(tag + "get Student remote exception" + http.message)
-                    else -> {
-                        println(tag + "get News remote exception" + http.code())
-                    }
+                    else -> println(tag + "updatePupil HttpException ${http.code()}: ${http.message}")
                 }
                 null
 
@@ -146,31 +140,24 @@ class PupilRepositoryImpl2 @Inject constructor(
 
                 getStudentsOnline(1).items
 
-            }
-            catch (e: Exception) {
-                e.printStackTrace()
-                println(tag + "get News remote exception" + e.message)
-                null
-
             } catch (http: HttpException) {
                 http.printStackTrace()
                 when (http.code()) {
 
-                    401 -> println(tag + "get News remote exception" + http.message)
-                    503 -> println(tag + "get News remote exception" + http.message)
-                    404 -> println(tag + "get News remote exception" + http.message)
-                    else -> {
-                        println(tag + "get News remote exception" + http.code())
-                    }
+                    401 -> println(tag + "get Student remote exception" + http.message)
+                    503 -> println(tag + "get Student remote exception" + http.message)
+                    404 -> println(tag + "get Student remote exception" + http.message)
+                    else -> println(tag + "updatePupil HttpException ${http.code()}: ${http.message}")
                 }
                 null
 
             } catch (io: IOException) {
                 io.printStackTrace()
-                println(tag + "get News remote exception" + io.message)
+                println(tag + "get Student remote exception" + io.message)
                 null
 
             }
+
 
 
             remoteStudent?.let {
@@ -188,26 +175,51 @@ class PupilRepositoryImpl2 @Inject constructor(
 
     override suspend fun getArticleByID(pupilId: Int): Flow<PupilResult<Pupils>> {
         return flow {
+            /** Try to get the pupil remotely  first and return null if there is an error ***/
 
-            // Try to get the pupil remotely
             val remotePupil = try {
                 Api.getPupilsById(pupilId)
             } catch (e: Exception) {
                 e.printStackTrace()
                 println("$tag getPupilsById remote exception: ${e.message}")
                 null
+            }catch (http: HttpException) {
+                http.printStackTrace()
+                when (http.code()) {
+
+                    401 -> println(tag + "get Student remote exception" + http.message)
+                    503 -> println(tag + "get Student remote exception" + http.message)
+                    404 -> println(tag + "get Student remote exception" + http.message)
+                    else -> println(tag + "updatePupil HttpException ${http.code()}: ${http.message}")
+
+                }
+                null
+
+            } catch (io: IOException) {
+                io.printStackTrace()
+                println(tag + "get Student remote exception" + io.message)
+                null
+
             }
 
 
-            // If remote is successful, cache it locally and emit
+
+
+
+            /** if the response is non null save to room data bas which is the single source of t
+            Truth
+             ***/
+
             remotePupil?.let {
-                studentsDao.upSertPupils(it.toPupilsEntity()) // Save to DB
+                studentsDao.upSertPupils(it.toPupilsEntity())
                 emit(PupilResult.Success(it.toPupil()))
 
                 return@flow
             }
 
-            // If remote fails, try to get it from local database
+            /** If remote is unsuccessful, try getting the data from the
+             * data base locally it locally and emit **/
+
             val localPupil = studentsDao.getStudentById(pupilId)
 
             localPupil?.let {
@@ -225,21 +237,99 @@ class PupilRepositoryImpl2 @Inject constructor(
                 )
                 return@flow
             }
+            /** If neither remote nor local works **/
 
-            // If neither remote nor local works
             emit(PupilResult.Error("Pupil not found with ID: $pupilId"))
         }
     }
 
 
     override suspend fun deleteAllStudents(studentID: Int): Flow<PupilResult<Pupils>> {
-        TODO("Not yet implemented")
+        return flow {
+            val remotePupil = try {
+                deleteStudentOnline(studentID)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                println(tag + "getPupilById exception: ${e.message}")
+                null
+            } catch (http: HttpException) {
+                http.printStackTrace()
+                when (http.code()) {
+                    401 -> println(tag + "getPupilById HttpException 401: ${http.message}")
+                    503 -> println(tag + "getPupilById HttpException 503: ${http.message}")
+                    404 -> println(tag + "getPupilById HttpException 404: ${http.message}")
+                    else -> println(tag + "getPupilById HttpException ${http.code()}: ${http.message}")
+                }
+                null
+            } catch (io: IOException) {
+                io.printStackTrace()
+                println(tag + "getPupilById IOException: ${io.message}")
+                null
+            }
+
+            /** If remote delete  is successful Delete from local **/
+            remotePupil?.let {
+                studentsDao.deleteStudentById(studentID)
+                emit(PupilResult.Success(data = null))
+                return@flow
+            }
+
+            /** If remote fails, check local DB  and delete **/
+            val localPupil = studentsDao.deleteStudentById(studentID)
+
+            localPupil.let {
+                emit(
+                    PupilResult.Success(
+                        data = null
+                    )
+                )
+                /** If not found in remote or local, emit error **/
+                emit(PupilResult.Error("Pupil not found with ID"))
+                return@flow
+            }
+
+        }
     }
 
-    override suspend fun updateStudents(): Flow<PupilResult<Pupils>> {
-        TODO("Not yet implemented")
+    override suspend fun updateStudents(pupil: Pupils): Flow<PupilResult<Pupils>> {
+
+        return flow {
+            val response = try {
+                updateStudentsOnline(pupil)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                println(tag + "updatePupil exception: ${e.message}")
+                null
+            } catch (http: HttpException) {
+
+                http.printStackTrace()
+
+                when (http.code()) {
+                    401 -> println(tag + "updatePupil HttpException 401: ${http.message}")
+                    503 -> println(tag + "updatePupil HttpException 503: ${http.message}")
+                    404 -> println(tag + "updatePupil HttpException 404: ${http.message}")
+                    else -> println(tag + "updatePupil HttpException ${http.code()}: ${http.message}")
+                }
+                null
+            } catch (io: IOException) {
+                io.printStackTrace()
+                println(tag + "updatePupil IOException: ${io.message}")
+                null
+            }
+            response.let {
+                studentsDao.upSertPupils(pupil.toPupilsEntity())
+
+                emit(PupilResult.Success(data = null))
+            }
+            emit(PupilResult.Error("Failed to update pupil"))
+        }
     }
 }
+
+
+
+
+
 
 
 fun PupilItemDto.toPupil(): Pupils {

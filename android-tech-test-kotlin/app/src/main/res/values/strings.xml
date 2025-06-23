@@ -7,6 +7,15 @@
     <string name="Location">Longitude</string>
     <string name="sync">Sync</string>
     <string name="edit">"Delete pupil</string>
+    <string name="Pupil_ID"> Pupil Id</string>
+    <string name="name_cannot_be_empty">  name cannot be empty</string>
+    <string name="Latitude_must_be_a_valid_number"> Latitude must be a valid number</string>
+    <string name="Country_cannot_be_empty">  Country cannot be empty</string>
+    <string name="Longitude_must_be_a_valid_number">  Longitude must be a valid number</string>
+    <string name="Image_URL"> Image Url</string>
+    <string name="pupil_id_must_be_valid_number">  pupil_id must be valid number</string>
+    <string name="invalid_image_url">http://lorempixel.com/640/480/people?name=Abigail</string>
+
 
     <string name="Pupil_id">PupilId</string>
     <string name="back">Back</string>

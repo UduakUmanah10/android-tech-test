@@ -15,6 +15,6 @@ interface PupilRepository1 {
 
     suspend fun deleteAllStudents(studentID: Int): Flow<PupilResult<Pupils>>
 
-    suspend fun updateStudents(): Flow<PupilResult<Pupils>>
+    suspend fun updateStudents(pupil:Pupils): Flow<PupilResult<Pupils>>
 
 }

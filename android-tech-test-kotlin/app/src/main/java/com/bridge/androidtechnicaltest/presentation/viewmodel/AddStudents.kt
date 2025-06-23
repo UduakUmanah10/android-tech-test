@@ -26,11 +26,12 @@ class AddStudents: ViewModel() {
         }
     }
 
-    fun enterImage(input:String){
+    fun enterImageUrl(input:String){
         _InputValue.update { current ->
-            current.copy(name = input)
+            current.copy(imageUrl = input)
         }
     }
+
 
     fun enterLatitude(input:Double){
         _InputValue.update { current ->
@@ -45,14 +46,22 @@ class AddStudents: ViewModel() {
         }
     }
 
+    fun enterPupilId(input:Double){
+        _InputValue.update { current ->
+            current.copy( pupilId = input)
+        }
+
+    }
+
     fun create(){
+        println("++++student deleted  ${InputValue.value.name} va+++")
 
     }
-
-    fun delete(){
-        _InputValue.value= inputValue()
-
-    }
+//
+//    fun delete(){
+//        _InputValue.value= inputValue()
+//
+//    }
 
 
 }

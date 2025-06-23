@@ -10,7 +10,7 @@ import com.bridge.androidtechnicaltest.R
 import com.bridge.androidtechnicaltest.databinding.ActivityMainBinding
 import com.bridge.androidtechnicaltest.presentation.Fragments.PupilListFragment
 import com.bridge.androidtechnicaltest.presentation.viewmodel.AddStudents
-import com.bridge.androidtechnicaltest.presentation.viewmodel.EditStudent
+import com.bridge.androidtechnicaltest.presentation.viewmodel.UpdateStudent
 import com.bridge.androidtechnicaltest.presentation.viewmodel.StudentsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: StudentsViewModel by viewModels()
     private val addStudent: AddStudents by viewModels()
-    private val EditStudent: EditStudent by viewModels()
+    private val EditStudent: UpdateStudent by viewModels()
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
