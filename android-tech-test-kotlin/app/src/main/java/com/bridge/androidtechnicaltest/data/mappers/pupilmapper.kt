@@ -114,3 +114,14 @@ fun PupilDtoResponse.toPupil(): Pupils {
         longitude = this.longitude
     )
 }
+
+fun Pupils.toPupilItemDto(): PupilItemDto {
+    return PupilItemDto(
+        country = this.country ?: "",
+        image = this.image ?: "",
+        latitude = this.latitude ?: 0.0,
+        longitude = this.longitude ?: 0.0,
+        name = this.name?: "",
+        pupilId = this.pupilId ?: 0
+    )
+}

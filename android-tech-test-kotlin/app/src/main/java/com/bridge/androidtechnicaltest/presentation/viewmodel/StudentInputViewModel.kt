@@ -5,5 +5,7 @@ data class inputValue(
     val name: String?="",
     val image: String?="",
     val latitude: Double?=null,
-    val longitude: Double? =null
+    val longitude: Double? =null,
+    val imageUrl :String? =null,
+    val pupilId :Double? =null
 )

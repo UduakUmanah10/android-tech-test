@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -12,68 +12,71 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bridge.androidtechnicaltest.databinding.FragmentPupillistBinding
-import com.bridge.androidtechnicaltest.data.local.PupilItemEntity
 import com.bridge.androidtechnicaltest.presentation.MainActivity
 import com.bridge.androidtechnicaltest.presentation.adapters.StudentsAdapter
 import com.bridge.androidtechnicaltest.presentation.viewmodel.StudentsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-val pupilList = listOf(
-    PupilItemEntity(
-        country = "Amsterdam",
-        image = "http://lorempixel.com/640/480/sports?name=Abbigail Doyle",
-        latitude = 0.0,
-        longitude = 0.0,
-        name = "Abbigail Doyle",
-        pupilId = 7493,
-        workType = "",
-        time = 1750465100588,
-        offlineDataOperation = 0
-    ),
-    PupilItemEntity(
-        country = "Kenya",
-        image = "http://lorempixel.com/640/480/nature?name=Abbigail Yundt",
-        latitude = -48.4534,
-        longitude = 164.6,
-        name = "Abbigail Yundt",
-        pupilId = 7522,
-        workType = "", // was cut off, assumed empty
-        time = 0L, // time not captured, default added
-        offlineDataOperation = 0
-    )
-)
+
+const val SEARCH_DELAY_TIME = 30L
 
 @AndroidEntryPoint
 class PupilListFragment : Fragment() {
 
-    private lateinit var  binding: FragmentPupillistBinding
+    private lateinit var binding: FragmentPupillistBinding
     private lateinit var studentAdapter: StudentsAdapter
 
     val fragment = PupilDetailFragment()
 
     private val viewModel: StudentsViewModel by activityViewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding= FragmentPupillistBinding.inflate(inflater,container,false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentPupillistBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-          setUpRecyclerView()
+        setUpRecyclerView()
 
-        binding.fab.setOnClickListener{
+        var searchJob: Job? = null
 
-            Toast.makeText(requireContext(), "fab clicked...", Toast.LENGTH_SHORT).show()
+        binding.searchPupil.addTextChangedListener { editable ->
+            searchJob?.cancel()
+            searchJob = viewLifecycleOwner.lifecycleScope.launch {
+                delay(SEARCH_DELAY_TIME)
+                val query = editable.toString()
+                if (query.isNotEmpty()) {
+                    viewModel.searchForPupil(query)
+                }
+            }
+        }
+
+
+        binding.fab.setOnClickListener {
+
             (activity as? MainActivity)?.navigateToFragment(AddStudent())
         }
 
         binding.search.setOnClickListener {
 
-            Toast.makeText(requireContext(), "normal  clicked...", Toast.LENGTH_SHORT).show()
-            (activity as? MainActivity)?.navigateToFragment(PupilDetailFragment())
-
+           val input = binding.searchPupil.text.toString()
+            searchJob?.cancel()
+            searchJob = viewLifecycleOwner.lifecycleScope.launch {
+                delay(SEARCH_DELAY_TIME)
+                val query = input
+                if (query.isNotEmpty()) {
+                    viewModel.searchForPupil(query)
+                }
+            }
         }
 
         studentAdapter.onDeleteClick = { pupil ->
@@ -82,62 +85,67 @@ class PupilListFragment : Fragment() {
                 putString("name", pupil.name)
                 putString("country", pupil.country)
                 putString("image", pupil.image)
-               // putDouble("latitude", pupil.latitude)
-              //  putDouble("longitude", pupil.longitude)
-                putInt("pupilId", pupil.pupilId)
+                pupil.latitude?.let { putDouble("latitude", it) }
+                pupil.longitude?.let { putDouble("longitude", it) }
+                pupil.pupilId?.let { putInt("pupilId", it) }
             }
 
-            Toast.makeText(requireContext(), "Deleted: ${pupil.name}", Toast.LENGTH_SHORT).show()
+
             (activity as? MainActivity)?.navigateToFragment(UpdateFragment(), bundle)
-            // Handle deletion logic here
+
         }
-        studentAdapter.itemClicked= { pupil ->
+
+
+        studentAdapter.itemClicked = { pupil ->
+            println("== $pupil ==")
 
             val bundle = Bundle().apply {
                 putString("name", pupil.name)
                 putString("country", pupil.country)
                 putString("image", pupil.image)
-               // putDouble("latitude", pupil.latitude)
-             //   putDouble("longitude", pupil.longitude)
-                putInt("pupilId", pupil.pupilId)
+                pupil.latitude?.let { putDouble("latitude", it) }
+                pupil.longitude?.let { putDouble("longitude", it) }
+                pupil.pupilId?.let { putInt("pupilId", it) }
+
+
             }
-            Toast.makeText(requireContext(), "Deleted: ${pupil.name}", Toast.LENGTH_SHORT).show()
+
             (activity as? MainActivity)?.navigateToFragment(PupilDetailFragment(), bundle)
-            // Handle deletion logic here
+
         }
-
-
-
 
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect { state ->
 
-                    println("=======Collected state: $state============")
+                viewModel.uiState1.collectLatest { state ->
 
+                    println(" /======= new ui Collected state: ${state.data}  ${state.error} ============ /")
                     studentAdapter.studentListDiffer.submitList(state.data)
 
-                    if(state.data.isNotEmpty()){
-                //        binding.textView.text = state.data[0].name
-
+                    if (state.loading) {
+                        binding.progressBaree.visibility = View.VISIBLE
+                    } else {
+                        binding.progressBaree.visibility = View.GONE
                     }
 
                 }
+
             }
         }
+
     }
 
 
-   private fun setUpRecyclerView(){
-       studentAdapter= StudentsAdapter()
-       binding.rvStudentList.apply {
-           adapter= studentAdapter
-           layoutManager = LinearLayoutManager(activity)
+    private fun setUpRecyclerView() {
+        studentAdapter = StudentsAdapter()
+        binding.rvStudentList.apply {
+            adapter = studentAdapter
+            layoutManager = LinearLayoutManager(activity)
 
-       }
+        }
 
 
-   }
+    }
 
 }

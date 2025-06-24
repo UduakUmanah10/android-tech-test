@@ -11,21 +11,20 @@
         android:layout_height="wrap_content"
         android:padding="24dp">
 
-        <!-- Centered Image -->
         <ImageView
             android:id="@+id/Image"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/ic_placeholder"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="4dp"
             android:contentDescription="@string/Image"
             android:scaleType="centerCrop"
-            android:layout_marginBottom="24dp"
+            android:src="@drawable/ic_placeholder"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Country Field -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/countryTextField"
             android:layout_width="0dp"
@@ -36,8 +35,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:errorEnabled="true"
-            app:helperTextEnabled="true"
-            app:helperText="Please enter a country"
             app:errorTextColor="@android:color/holo_red_dark">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -48,7 +45,6 @@
                 android:textColorHint="@android:color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Name Field -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/EnterName"
             android:layout_width="0dp"
@@ -62,7 +58,6 @@
             android:layout_marginTop="16dp"
             app:errorEnabled="true"
             app:helperTextEnabled="true"
-            app:helperText="Please enter a name"
             app:errorTextColor="@android:color/holo_red_dark">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -73,7 +68,6 @@
                 android:textColorHint="@android:color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Latitude Field -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/EnterLatitude"
             android:layout_width="0dp"
@@ -87,7 +81,6 @@
             android:layout_marginTop="16dp"
             app:errorEnabled="true"
             app:helperTextEnabled="true"
-            app:helperText="Enter a valid latitude"
             app:errorTextColor="@android:color/holo_red_dark">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -98,7 +91,6 @@
                 android:textColorHint="@android:color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Longitude Field -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/EnterLongitude"
             android:layout_width="0dp"
@@ -110,10 +102,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="24dp"
             app:errorEnabled="true"
             app:helperTextEnabled="true"
-            app:helperText="Enter a valid longitude"
             app:errorTextColor="@android:color/holo_red_dark">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -125,16 +115,64 @@
                 android:textColor="#2B2B2B" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Create Button -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/EnterPupilId"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/Pupil_ID"
+            android:textColorHint="@android:color/black"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:layout_constraintTop_toBottomOf="@id/EnterLongitude"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            app:errorEnabled="true"
+            app:helperTextEnabled="true"
+            app:errorTextColor="@android:color/holo_red_dark">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/pupilIdInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:textColorHint="@android:color/black"
+                android:textColor="#2B2B2B" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/Image_url"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/Image_URL"
+            android:textColorHint="@android:color/black"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:layout_constraintTop_toBottomOf="@id/EnterPupilId"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            app:errorEnabled="true"
+            app:helperTextEnabled="true"
+            app:errorTextColor="@android:color/holo_red_dark">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/imageUrlInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textUri"
+                android:textColor="#2B2B2B"
+                android:textColorHint="@android:color/black" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <Button
             android:id="@+id/create_new"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="52dp"
+            android:layout_marginTop="16dp"
             android:text="@string/Create"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/EnterLongitude" />
+            app:layout_constraintTop_toBottomOf="@id/Image_url" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
