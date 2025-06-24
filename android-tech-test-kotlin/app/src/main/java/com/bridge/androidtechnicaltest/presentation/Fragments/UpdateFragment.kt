@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
+import com.bridge.androidtechnicaltest.R
 import com.bridge.androidtechnicaltest.databinding.FragmentUpdateBinding
 import com.bridge.androidtechnicaltest.presentation.viewmodel.UpdateStudent
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,7 +55,7 @@ class UpdateFragment : Fragment() {
         binding.enterCountry.doOnTextChanged { text, _, _, _ ->
             viewModel.enterCountry(text.toString())
             if (text.isNullOrBlank()) {
-                binding.countryTextInputLayout.error = "Country cannot be empty"
+                binding.countryTextInputLayout.error = getString(R.string.Country_cannot_be_empty)
             } else {
                 binding.countryTextInputLayout.error = null
             }
@@ -65,7 +66,7 @@ class UpdateFragment : Fragment() {
         binding.enterName.doOnTextChanged { text, _, _, _ ->
             viewModel.enterName(text.toString())
             if (text.isNullOrBlank()) {
-                binding.nameTextInputLayout.error = "Name cannot be empty"
+                binding.nameTextInputLayout.error =getString(R.string.name_cannot_be_empty)
             } else {
                 binding.nameTextInputLayout.error = null
             }
@@ -74,7 +75,7 @@ class UpdateFragment : Fragment() {
         binding.latitude.doOnTextChanged { text, _, _, _ ->
             val lat = text.toString().toDoubleOrNull()
             if (lat == null) {
-                binding.latitudeTextInputLayout.error = "Latitude must be a valid number"
+                binding.latitudeTextInputLayout.error =getString(R.string.Latitude_must_be_a_valid_number)
             } else {
                 binding.latitudeTextInputLayout.error = null
                 viewModel.enterLatitude(lat)
@@ -84,7 +85,7 @@ class UpdateFragment : Fragment() {
         binding.longitude.doOnTextChanged { text, _, _, _ ->
             val lon = text.toString().toDoubleOrNull()
             if (lon == null) {
-                binding.longitudeTextInputLayout.error = "Longitude must be a valid number"
+                binding.longitudeTextInputLayout.error = getString(R.string.Longitude_must_be_a_valid_number)
             } else {
                 binding.longitudeTextInputLayout.error = null
                 viewModel.enterLongitude(lon)

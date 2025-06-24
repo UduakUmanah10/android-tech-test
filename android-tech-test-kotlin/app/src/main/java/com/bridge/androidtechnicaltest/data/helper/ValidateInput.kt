@@ -6,7 +6,8 @@ data class PupilInput(
     val name: String?,
     val image: String?,
     val latitude: Double?,
-    val longitude: Double?
+    val longitude: Double?,
+    val pupilid :Int?
 )
 
 data class PupilValidationResult(

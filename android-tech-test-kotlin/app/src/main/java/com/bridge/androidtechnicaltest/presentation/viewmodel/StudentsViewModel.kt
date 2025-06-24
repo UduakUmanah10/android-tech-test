@@ -1,82 +1,114 @@
 package com.bridge.androidtechnicaltest.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bridge.androidtechnicaltest.data.remote.ApiResult
-import com.bridge.androidtechnicaltest.data.local.PupilItemEntity
+import com.bridge.androidtechnicaltest.domain.model.PupilResult
+import com.bridge.androidtechnicaltest.domain.model.Pupils
 import com.bridge.androidtechnicaltest.domain.repository.PupilRepository1
-import com.bridge.androidtechnicaltest.domain.usecases.GetAllStudentUseCase
+import com.bridge.androidtechnicaltest.domain.usecases.GetPupilsUsecase
 import com.bridge.androidtechnicaltest.domain.usecases.StartPeriodicRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class StudentsViewModel @Inject constructor(
-    private val getAllQuotesFromDbUseCase: GetAllStudentUseCase,
     private val setupPeriodicWorkRequestUseCase: StartPeriodicRequest,
-    private val pupilRepo: PupilRepository1
+    private val pupilRepo: PupilRepository1,
+    private val pupilUsecase: GetPupilsUsecase
 ) : ViewModel() {
 
     init {
-     //   setupPeriodicWorkRequestUseCase.invoke()
+
         viewModelScope.launch {
-            pupilRepo.getPupil().collect{
-                println("========= update  $it")
-
-
+            pupilRepo.getPupil().collect {
+                println("========= update  ${it.data?.items}")
             }
-
+            initialValuer()
         }
-
-
-
     }
-    private val _showError = Channel<Boolean>()
-    val showError = _showError.receiveAsFlow()
 
-    val uiState = getAllQuotesFromDbUseCase.invoke()
-        .map { result ->
-            when (result) {
-                is ApiResult.Failure -> {
 
-                    println("====== failure ========")
+    private val _uiState = MutableStateFlow(newUiState())
+    val uiState1 = _uiState.asStateFlow()
 
-                    UiState(result.responseData ?: emptyList())
-                }
-
-                is ApiResult.Success -> {
-                    pupilRepo.getPupil()
-                    val data = result.responseData ?: emptyList()
-                    println("===========Success: $data=========")
-                    pupilRepo.getPupil().collect{
-                        println("========= update  $it")
-
-                    }
-                    Log.d("OUTPUT", "$data")
-                    UiState(data)
-                }
-            }
-        }.onStart {  }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Eagerly,
-            initialValue = UiState(emptyList())
-        )
 
 
     fun refresh() {
         setupPeriodicWorkRequestUseCase.invoke()
     }
+
+    fun searchForPupil(query: String) {
+
+        viewModelScope.launch {
+             pupilRepo.getStudentsByID(query.toInt()).collectLatest { data ->
+
+                 _uiState.value = _uiState.value.copy(
+                     loading = true
+                 )
+
+                 println("========= searching  ${data.data?.items}")
+                when (data) {
+                    is PupilResult.Error -> {
+                        data.data
+                        _uiState.value = _uiState.value.copy(
+                            loading = false
+                        )
+                    }
+
+                    is PupilResult.Success -> {
+                        data.data?.items?.let {
+                            _uiState.value = _uiState.value.copy(
+                                data = it,
+                                loading = false
+                            )
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    fun initialValuer() {
+        viewModelScope.launch {
+            pupilRepo.getPupil().collect {
+
+            }
+
+            pupilRepo.getPupil().collect { data ->
+                println("========= new update  ${data.data?.items}")
+
+                when (data) {
+                    is PupilResult.Error -> {
+                        data.data?.items?.let {
+                            _uiState.value = _uiState.value.copy(
+                                data = it,
+                                loading = false
+                            )
+                        }
+                    }
+
+                    is PupilResult.Success -> {
+                        data.data?.items?.let {
+                            _uiState.value = _uiState.value.copy(
+                                data = it,
+                                loading = false
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
-data class UiState(val data: List<PupilItemEntity>)
+
+data class newUiState(
+    val data: List<Pupils> = emptyList(),
+    val loading: Boolean = true,
+    val error: Boolean = false
+)

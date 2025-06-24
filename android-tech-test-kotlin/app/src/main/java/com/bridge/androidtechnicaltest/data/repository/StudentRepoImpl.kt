@@ -33,34 +33,7 @@ class StudentRepoImpl @Inject constructor(
     }
 
     override fun getAllStudents(): Flow<ApiResult<List<PupilItemEntity>>> {
-        return flow{
-
-           val studentApi = try {
-                Api.getPupils().items!!.map { it.toPupilItem("") }
-
-            }catch (e:IOException){
-                e.printStackTrace()
-                val dataFromDatabase = studentsDao.getALLStudents()
-               println("======database  $dataFromDatabase=======")
-                emit(ApiResult.Failure(responseData = dataFromDatabase, errorMessage = "error in Io"))
-                return@flow
-
-            }
-            catch (e:HttpException){
-                val dataFromDatabase = studentsDao.getALLStudents()
-                emit(ApiResult.Failure(responseData = dataFromDatabase, errorMessage = "error in Io"))
-                return@flow
-            }
-            catch (e:Exception){
-                e.printStackTrace()
-                val dataFromDatabase = studentsDao.getALLStudents()
-                emit(ApiResult.Failure(responseData = dataFromDatabase, errorMessage = "error in Io"))
-                return@flow
-            }
-
-            emit(ApiResult.Success(responseData = studentApi))
-
-        }.flowOn(Dispatchers.IO)
+        TODO("Not yet implemented")
     }
 
     override fun deleteAllStudents() {

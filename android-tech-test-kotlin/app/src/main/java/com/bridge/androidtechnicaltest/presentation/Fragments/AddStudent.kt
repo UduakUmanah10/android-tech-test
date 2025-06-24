@@ -14,7 +14,6 @@ import com.bridge.androidtechnicaltest.presentation.MainActivity
 import com.bridge.androidtechnicaltest.presentation.viewmodel.AddStudents
 
 
-
 class AddStudent : Fragment() {
 
 
@@ -39,71 +38,83 @@ class AddStudent : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.createNew.setOnClickListener {
-            (activity as? MainActivity)?.navigateToFragment(PupilListFragment())
-        }
 
         binding.countryTextField.editText?.doOnTextChanged { text, _, _, _ ->
             val country = text.toString().trim()
-            if (country.isBlank()) {
-                binding.countryTextField.error = getString(R.string.Country_cannot_be_empty)
-            } else {
-                binding.countryTextField.error = null
-                viewMode.enterCountry(country)
+            when {
+                country.length < 2 -> binding.countryTextField.error = getString(R.string.error_country_too_short)
+                country.length > 100 -> binding.countryTextField.error = getString(R.string.error_country_too_long)
+                else -> binding.countryTextField.error = null
             }
         }
 
         binding.EnterName.editText?.doOnTextChanged { text, _, _, _ ->
             val name = text.toString().trim()
-            if (name.isBlank()) {
-                binding.EnterName.error =getString(R.string.name_cannot_be_empty)
-            } else {
-                binding.EnterName.error = null
-                viewMode.enterName(name)
+            when {
+                name.length < 2 -> binding.EnterName.error = getString(R.string.error_name_too_short)
+                name.length > 100 -> binding.EnterName.error = getString(R.string.error_name_too_long)
+                else -> binding.EnterName.error = null
             }
         }
 
         binding.EnterLatitude.editText?.doOnTextChanged { text, _, _, _ ->
             val lat = text.toString().toDoubleOrNull()
-            if (lat == null) {
-                binding.EnterLatitude.error = getString(R.string.Latitude_must_be_a_valid_number)
-            } else {
-                binding.EnterLatitude.error = null
-                viewMode.enterLatitude(lat)
+            when {
+                lat == null -> binding.EnterLatitude.error = getString(R.string.error_latitude_invalid)
+                lat !in -90.0..90.0 -> binding.EnterLatitude.error = getString(R.string.error_latitude_range)
+                else -> binding.EnterLatitude.error = null
             }
         }
 
         binding.EnterLongitude.editText?.doOnTextChanged { text, _, _, _ ->
             val lon = text.toString().toDoubleOrNull()
-            if (lon == null) {
-                binding.EnterLongitude.error = getString(R.string.Longitude_must_be_a_valid_number)
-            } else {
-                binding.EnterLongitude.error = null
-                viewMode.enterLongitude(lon)
+            when {
+                lon == null -> binding.EnterLongitude.error = getString(R.string.error_longitude_invalid)
+                lon !in -180.0..180.0 -> binding.EnterLongitude.error = getString(R.string.error_longitude_range)
+                else -> binding.EnterLongitude.error = null
             }
         }
 
         binding.EnterPupilId.editText?.doOnTextChanged { text, _, _, _ ->
-            val pupilId = text.toString().toDoubleOrNull()
+            val pupilId = text.toString().toIntOrNull()
             if (pupilId == null) {
-                binding.EnterPupilId.error = getString(R.string.pupil_id_must_be_valid_number)
+                binding.EnterPupilId.error = getString(R.string.error_pupil_id_invalid)
             } else {
                 binding.EnterPupilId.error = null
-                viewMode.enterPupilId(pupilId)
             }
         }
 
         binding.ImageUrl.editText?.doOnTextChanged { text, _, _, _ ->
             val url = text.toString().trim()
-            if (url.isEmpty() || !Patterns.WEB_URL.matcher(url).matches()) {
-                binding.ImageUrl.error = getString(R.string.invalid_image_url)
-            } else {
-                binding.ImageUrl.error = null
-                viewMode.enterImageUrl(url)
+            when {
+                url.length < 11 -> binding.ImageUrl.error = getString(R.string.error_image_url_too_short)
+                url.length > 1000 -> binding.ImageUrl.error = getString(R.string.error_image_url_too_long)
+                !Patterns.WEB_URL.matcher(url).matches() -> binding.ImageUrl.error = getString(R.string.error_image_url_invalid)
+                else -> binding.ImageUrl.error = null
             }
         }
 
+        val country = binding.countryTextField.editText?.text.toString().trim()
+        val name = binding.EnterName.editText?.text.toString().trim()
+        val latitude = binding.EnterLatitude.editText?.text.toString().toDoubleOrNull()
+        val longitude = binding.EnterLongitude.editText?.text.toString().toDoubleOrNull()
+        val pupilId = binding.EnterPupilId.editText?.text.toString().toIntOrNull()
+        val imageUrl = binding.ImageUrl.editText?.text.toString().trim()
+
+        binding.createNew.setOnClickListener {
+
+            viewMode.createStudent(
+                country = country,
+                name = name,
+                latitude = latitude,
+                longitude = longitude,
+                pupilId = pupilId,
+                imageUrl = imageUrl
+            )
+        }
+
     }
+
 
 }
 

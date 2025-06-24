@@ -1,10 +1,8 @@
 package com.bridge.androidtechnicaltest.data.remote
 
 import com.bridge.androidtechnicaltest.data.remote.model.PupilsDto
-import com.bridge.androidtechnicaltest.domain.model.PostPupil
 import com.bridge.androidtechnicaltest.data.remote.model.PupilDtoResponse
 import com.bridge.androidtechnicaltest.data.remote.model.PupilItemDto
-import com.bridge.androidtechnicaltest.domain.model.UpdatePupilViewModel
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -23,8 +21,7 @@ interface PupilApiService {
 
 
     @POST("pupils")
-    suspend  fun createPupil(@Body pupil: PupilsDto): PupilsDto
-
+    suspend  fun createPupil(@Body pupil:  PupilItemDto):    PupilItemDto
 
     @PUT("pupils/{id}")
     suspend fun updatePupil(

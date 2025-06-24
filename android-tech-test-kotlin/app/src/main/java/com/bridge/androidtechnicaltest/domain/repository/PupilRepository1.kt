@@ -9,9 +9,7 @@ interface PupilRepository1 {
 
     suspend fun getPupil(): Flow<PupilResult<PupilList>>
 
-    suspend fun paginate(nextPageCount: Int): Flow<PupilResult<PupilList>>
-
-    suspend fun getArticleByID(pupilId: Int): Flow<PupilResult<Pupils>>
+    suspend fun getStudentsByID(pupilId: Int): Flow<PupilResult<PupilList>>
 
     suspend fun deleteAllStudents(studentID: Int): Flow<PupilResult<Pupils>>
 

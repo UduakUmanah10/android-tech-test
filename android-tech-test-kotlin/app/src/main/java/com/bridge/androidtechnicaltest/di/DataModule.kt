@@ -5,6 +5,8 @@ import androidx.work.WorkManager
 import com.bridge.androidtechnicaltest.data.local.PupilsDao
 import com.bridge.androidtechnicaltest.data.local.StudentsDatabase
 import com.bridge.androidtechnicaltest.data.remote.PupilApiService
+import com.bridge.androidtechnicaltest.domain.repository.PupilRepository1
+import com.bridge.androidtechnicaltest.domain.usecases.GetPupilsUsecase
 
 import dagger.Module
 import dagger.Provides
@@ -69,6 +71,12 @@ object DataModule {
     @Provides
     fun provideWorkManager(@ApplicationContext context: Context): WorkManager {
         return WorkManager.getInstance(context)
+    }
+
+    @Provides
+    fun  GetPupils( pupilRepo: PupilRepository1): GetPupilsUsecase {
+        return  GetPupilsUsecase(pupilRepo)
+
     }
 
 

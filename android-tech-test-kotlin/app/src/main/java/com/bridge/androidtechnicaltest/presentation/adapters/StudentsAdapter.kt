@@ -7,19 +7,20 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bridge.androidtechnicaltest.databinding.ViewHolderBinding
 import com.bridge.androidtechnicaltest.data.local.PupilItemEntity
+import com.bridge.androidtechnicaltest.domain.model.Pupils
 
 class StudentsAdapter : RecyclerView.Adapter<StudentsAdapter.StudentViewHolder>() {
 
-    var onDeleteClick: ((PupilItemEntity) -> Unit)? = null
+    var onDeleteClick: ((Pupils) -> Unit)? = null
 
-    var itemClicked: ((PupilItemEntity) -> Unit)? = null
+    var itemClicked: ((Pupils) -> Unit)? = null
 
 
     inner class StudentViewHolder(private val binding: ViewHolderBinding) :
 
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(student: PupilItemEntity) {
+        fun bind(student: Pupils) {
 
             binding.latitudeValue.text = student.latitude.toString()
             binding.longitudeValue.text = student.longitude.toString()
@@ -38,12 +39,12 @@ class StudentsAdapter : RecyclerView.Adapter<StudentsAdapter.StudentViewHolder>(
         }
     }
 
-    private val studentDiffUtil = object : DiffUtil.ItemCallback<PupilItemEntity>() {
-        override fun areItemsTheSame(oldItem: PupilItemEntity, newItem: PupilItemEntity): Boolean {
+    private val studentDiffUtil = object : DiffUtil.ItemCallback<Pupils>() {
+        override fun areItemsTheSame(oldItem: Pupils, newItem: Pupils): Boolean {
             return oldItem.pupilId == newItem.pupilId
         }
 
-        override fun areContentsTheSame(oldItem: PupilItemEntity, newItem: PupilItemEntity): Boolean {
+        override fun areContentsTheSame(oldItem: Pupils, newItem: Pupils): Boolean {
             return oldItem == newItem
         }
     }

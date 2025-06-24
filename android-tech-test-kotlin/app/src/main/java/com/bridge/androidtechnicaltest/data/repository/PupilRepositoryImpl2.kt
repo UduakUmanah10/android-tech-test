@@ -1,6 +1,5 @@
 package com.bridge.androidtechnicaltest.data.repository
 
-import androidx.work.WorkManager
 import com.bridge.androidtechnicaltest.data.local.PupilItemEntity
 import com.bridge.androidtechnicaltest.data.local.PupilsDao
 import com.bridge.androidtechnicaltest.data.mappers.toPupil
@@ -55,7 +54,6 @@ class PupilRepositoryImpl2 @Inject constructor(
             totalPages = totalPages
         )
     }
-
 
 
     private suspend fun getStudentsOnline(nextPageCount: Int): PupilList {
@@ -124,7 +122,6 @@ class PupilRepositoryImpl2 @Inject constructor(
 
             if (localstudent.items?.isNotEmpty()!!) {
                 emit(PupilResult.Success(localstudent))
-                //emit(PupilResult.Success(getStudentsOnline(1)))
                 return@flow
             }
 
@@ -134,46 +131,7 @@ class PupilRepositoryImpl2 @Inject constructor(
 
     }
 
-    override suspend fun paginate(nextPageCount: Int): Flow<PupilResult<PupilList>> {
-        return flow {
-            val remoteStudent = try {
-
-                getStudentsOnline(1).items
-
-            } catch (http: HttpException) {
-                http.printStackTrace()
-                when (http.code()) {
-
-                    401 -> println(tag + "get Student remote exception" + http.message)
-                    503 -> println(tag + "get Student remote exception" + http.message)
-                    404 -> println(tag + "get Student remote exception" + http.message)
-                    else -> println(tag + "updatePupil HttpException ${http.code()}: ${http.message}")
-                }
-                null
-
-            } catch (io: IOException) {
-                io.printStackTrace()
-                println(tag + "get Student remote exception" + io.message)
-                null
-
-            }
-
-
-
-            remoteStudent?.let {
-                remoteStudent.forEach {
-                    studentsDao.upSertPupils(it.toPupilsEntity())
-                }
-
-                return@flow
-            }
-
-
-        }
-    }
-
-
-    override suspend fun getArticleByID(pupilId: Int): Flow<PupilResult<Pupils>> {
+    override suspend fun getStudentsByID(pupilId: Int): Flow<PupilResult<PupilList>> {
         return flow {
             /** Try to get the pupil remotely  first and return null if there is an error ***/
 
@@ -181,12 +139,13 @@ class PupilRepositoryImpl2 @Inject constructor(
                 Api.getPupilsById(pupilId)
             } catch (e: Exception) {
                 e.printStackTrace()
-                println("$tag getPupilsById remote exception: ${e.message}")
+                println("$tag getPupilsById remote exception: ${e.message.toString()}")
                 null
-            }catch (http: HttpException) {
+            } catch (http: HttpException) {
                 http.printStackTrace()
                 when (http.code()) {
 
+                    400 -> println(tag + "get Student remote exception" + http.message)
                     401 -> println(tag + "get Student remote exception" + http.message)
                     503 -> println(tag + "get Student remote exception" + http.message)
                     404 -> println(tag + "get Student remote exception" + http.message)
@@ -202,18 +161,14 @@ class PupilRepositoryImpl2 @Inject constructor(
 
             }
 
-
-
-
-
             /** if the response is non null save to room data bas which is the single source of t
             Truth
              ***/
 
             remotePupil?.let {
                 studentsDao.upSertPupils(it.toPupilsEntity())
-                emit(PupilResult.Success(it.toPupil()))
-
+                val localstudent = getStudentsLocally(1)
+                emit(PupilResult.Success(localstudent))
                 return@flow
             }
 
@@ -225,18 +180,17 @@ class PupilRepositoryImpl2 @Inject constructor(
             localPupil?.let {
                 emit(
                     PupilResult.Success(
-                        Pupils(
-                            country = it.country,
-                            image = it.image,
-                            latitude = it.latitude,
-                            longitude = it.longitude,
-                            name = it.name,
-                            pupilId = it.pupilId
+                        PupilList(
+                            itemCount = null,
+                            items = getPupilListById(localPupil),
+                            pageNumber = null,
+                            totalPages = null
                         )
                     )
                 )
                 return@flow
             }
+
             /** If neither remote nor local works **/
 
             emit(PupilResult.Error("Pupil not found with ID: $pupilId"))
@@ -327,11 +281,6 @@ class PupilRepositoryImpl2 @Inject constructor(
 }
 
 
-
-
-
-
-
 fun PupilItemDto.toPupil(): Pupils {
     return Pupils(
         country = this.country,
@@ -341,4 +290,13 @@ fun PupilItemDto.toPupil(): Pupils {
         name = this.name,
         pupilId = this.pupilId
     )
+}
+
+fun getPupilListById(pupilId: PupilItemEntity?): List<Pupils> {
+    val list = mutableListOf<Pupils>()
+
+    pupilId?.let {
+        list.add(it.toPupil())
+    }
+    return list
 }

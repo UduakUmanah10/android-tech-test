@@ -8,10 +8,11 @@ import androidx.work.WorkerParameters
 import com.bridge.androidtechnicaltest.data.local.PupilsDao
 import com.bridge.androidtechnicaltest.data.mappers.toPupilItem
 import com.bridge.androidtechnicaltest.data.remote.PupilApiService
+import com.bridge.androidtechnicaltest.data.remote.model.PupilItemDto
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
-const val PEROIDIC_WORK_REQUEST:String ="PERIODIC_WORK_REQUEST"
+const val PEROIDIC_WORK_REQUEST: String = "PERIODIC_WORK_REQUEST"
 
 @HiltWorker
 class StudentPeriodicWorker @AssistedInject constructor(
@@ -27,8 +28,50 @@ class StudentPeriodicWorker @AssistedInject constructor(
             val response = apiService.getPupils()
             response.items!!.forEach { dto ->
                 println(dto)
-                studentsDao.upSert(dto.toPupilItem( PEROIDIC_WORK_REQUEST))
+                studentsDao.upSert(dto.toPupilItem(PEROIDIC_WORK_REQUEST))
             }
+
+
+            studentsDao.getALLStudents().filter { operationid ->
+                operationid.offlineDataOperation == 0
+            }.forEach { it ->
+                apiService.deletePupil(it.pupilId)
+
+            }
+
+
+            studentsDao.getALLStudents().filter { operationId ->
+                operationId.offlineDataOperation == 1
+
+            }.forEach { pupil ->
+                val update = PupilItemDto(
+                    country = pupil.country,
+                    image = pupil.image,
+                    latitude = pupil.latitude,
+                    longitude = pupil.longitude,
+                    name = pupil.name,
+                    pupilId = pupil.pupilId
+                )
+                apiService.updatePupil(id = pupil.pupilId, updatedPupil = update)
+            }
+
+            studentsDao.getALLStudents().filter { operationId ->
+                operationId.offlineDataOperation == 1
+
+            }.forEach { pupil ->
+                val update = PupilItemDto(
+                    country = pupil.country,
+                    image = pupil.image,
+                    latitude = pupil.latitude,
+                    longitude = pupil.longitude,
+                    name = pupil.name,
+                    pupilId = pupil.pupilId
+                )
+                apiService.createPupil(update)
+            }
+
+
+
 
             Result.success()
         } catch (e: Exception) {

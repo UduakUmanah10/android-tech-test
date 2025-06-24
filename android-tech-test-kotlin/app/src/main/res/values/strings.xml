@@ -18,6 +18,7 @@
 
 
     <string name="Pupil_id">PupilId</string>
+    <string name="Search">Search</string>
     <string name="back">Back</string>
     <string name="Pupil_id_value">1234</string>
 
@@ -54,6 +55,27 @@
     <string name="Update"> Update</string>
     <string name="Add"> Add </string>
     <string name="Create"> Create </string>
+
+
+    <string name="error_country_too_short">Country must be at least 2 characters</string>
+    <string name="error_country_too_long">Country must not exceed 100 characters</string>
+
+
+    <string name="error_name_too_short">Name must be at least 2 characters</string>
+    <string name="error_name_too_long">Name must not exceed 100 characters</string>
+
+
+    <string name="error_latitude_invalid">Latitude must be a valid number</string>
+    <string name="error_latitude_range">Latitude must be between -90 and 90</string>
+
+    <string name="error_longitude_invalid">Longitude must be a valid number</string>
+    <string name="error_longitude_range">Longitude must be between -180 and 180</string>
+
+    <string name="error_pupil_id_invalid">Pupil ID must be a valid number</string>
+
+    <string name="error_image_url_too_short">Image URL must be at least 11 characters</string>
+    <string name="error_image_url_too_long">Image URL must not exceed 1000 characters</string>
+    <string name="error_image_url_invalid">Invalid image URL format</string>
 
 
 </resources>
