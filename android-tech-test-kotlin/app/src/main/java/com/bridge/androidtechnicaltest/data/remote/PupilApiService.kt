@@ -17,7 +17,7 @@ interface PupilApiService {
 
 
     @GET("pupils/{id}")
-   suspend fun getPupilsById(@Query("page") id: Int ): PupilDtoResponse
+   suspend fun getPupilsById(@Path("page") id: Int ): PupilDtoResponse
 
 
     @POST("pupils")

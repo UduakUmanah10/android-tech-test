@@ -142,6 +142,8 @@ class PupilRepositoryImpl2 @Inject constructor(
                 println("$tag getPupilsById remote exception: ${e.message.toString()}")
                 null
             } catch (http: HttpException) {
+                val errorBody = http.response()?.errorBody()?.string()
+                println("API_ERROR  Error body: $errorBody")
                 http.printStackTrace()
                 when (http.code()) {
 
@@ -271,7 +273,9 @@ class PupilRepositoryImpl2 @Inject constructor(
                 null
             }
             response.let {
-                studentsDao.upSertPupils(pupil.toPupilsEntity())
+                studentsDao.upSertPupils(pupil.toPupilsEntity().copy(
+                    offlineDataOperation = 1
+                ))
 
                 emit(PupilResult.Success(data = null))
             }

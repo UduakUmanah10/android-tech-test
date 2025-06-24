@@ -22,6 +22,14 @@
     <string name="back">Back</string>
     <string name="Pupil_id_value">1234</string>
 
+    <string name="Image_url_cannot_be_empty"> Image url cannot be empty</string>
+
+    <string name="Pupil_id_must_be_a_valid_number"> Pupil id must be a valid number</string>
+
+    Pupil_id_must_be_a_valid_number
+
+    Image_url_cannot_be_empty
+
     <string name="name">Name</string>
     <string name="name_value"> Umanah </string>
 
@@ -55,7 +63,8 @@
     <string name="Update"> Update</string>
     <string name="Add"> Add </string>
     <string name="Create"> Create </string>
-
+    <string name="search_with_pupil_ID">  search with pupil ID </string>
+    search_with_pupil_ID
 
     <string name="error_country_too_short">Country must be at least 2 characters</string>
     <string name="error_country_too_long">Country must not exceed 100 characters</string>

@@ -15,12 +15,14 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+private const val API_TIMEOUT = 30L
 
-private const val API_TIMEOUT= 30L
+
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -29,11 +31,6 @@ object DataModule {
     @Singleton
     @Provides
     fun provideRetrofit(): Retrofit {
-        val builder = OkHttpClient.Builder()
-            .readTimeout(API_TIMEOUT, TimeUnit.SECONDS)
-            .writeTimeout(API_TIMEOUT, TimeUnit.SECONDS)
-            .connectTimeout(API_TIMEOUT, TimeUnit.SECONDS)
-
         val requestInterceptor = Interceptor { chain ->
             val newRequest = chain.request().newBuilder()
                 .addHeader("X-Request-ID", "dda7feeb-20af-415e-887e-afc43f245624")
@@ -42,10 +39,20 @@ object DataModule {
             chain.proceed(newRequest)
         }
 
-        builder.addInterceptor(requestInterceptor)
+        val loggingInterceptor = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+
+        val okHttpClient = OkHttpClient.Builder()
+            .readTimeout(API_TIMEOUT, TimeUnit.SECONDS)
+            .writeTimeout(API_TIMEOUT, TimeUnit.SECONDS)
+            .connectTimeout(API_TIMEOUT, TimeUnit.SECONDS)
+            .addInterceptor(requestInterceptor)
+            .addInterceptor(loggingInterceptor)
+            .build()
 
         return Retrofit.Builder()
-            .client(builder.build())
+            .client(okHttpClient)
             .baseUrl("https://androidtechnicaltestapi-test.bridgeinternationalacademies.com")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -74,10 +81,7 @@ object DataModule {
     }
 
     @Provides
-    fun  GetPupils( pupilRepo: PupilRepository1): GetPupilsUsecase {
-        return  GetPupilsUsecase(pupilRepo)
-
+    fun GetPupils(pupilRepo: PupilRepository1): GetPupilsUsecase {
+        return GetPupilsUsecase(pupilRepo)
     }
-
-
 }

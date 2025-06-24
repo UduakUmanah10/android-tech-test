@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bridge.androidtechnicaltest.databinding.ViewHolderBinding
-import com.bridge.androidtechnicaltest.data.local.PupilItemEntity
 import com.bridge.androidtechnicaltest.domain.model.Pupils
 
 class StudentsAdapter : RecyclerView.Adapter<StudentsAdapter.StudentViewHolder>() {

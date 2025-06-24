@@ -58,7 +58,7 @@ dependencies {
     // Room (use KSP for Room compiler)
     implementation(libs.room.ktx)
     implementation(libs.androidx.room.rxjava2)
-    ksp(libs.room.compiler)          // Use KSP here, NOT kapt
+    ksp(libs.room.compiler)
 
     // RxJava and RxAndroid
     implementation(libs.rxandroid)
@@ -77,10 +77,12 @@ dependencies {
 
     // Hilt dependencies
     implementation(libs.dagger.hilt)
-    kapt(libs.hilt.android.compiler)   // Hilt compiler currently requires kapt, no full KSP support yet
+    kapt(libs.hilt.android.compiler)
 
     // Testing dependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
+
+    implementation(libs.okhttp.logging)
 }

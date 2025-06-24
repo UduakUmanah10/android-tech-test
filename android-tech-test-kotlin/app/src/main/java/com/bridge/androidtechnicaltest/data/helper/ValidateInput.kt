@@ -18,15 +18,7 @@ data class PupilValidationResult(
     val isLongitudeCorrect: Boolean = true
 )
 
-fun validatePupilInput(input: PupilInput): PupilValidationResult {
-    return PupilValidationResult(
-        isCountryCorrect = !input.country.isNullOrBlank() && input.country.length in 2..100,
-        isNameCorrect = !input.name.isNullOrBlank() && input.name.length in 2..100,
-        isImageCorrect = input.image.isNullOrBlank() || input.image.length in 11..1000,
-        isLatitudeCorrect = input.latitude != null && input.latitude in -90.0..90.0,
-        isLongitudeCorrect = input.longitude != null && input.longitude in -180.0..180.0
-    )
-}
+
 
 
 fun isPupilInputValid(result: PupilValidationResult): Boolean {
@@ -35,4 +27,23 @@ fun isPupilInputValid(result: PupilValidationResult): Boolean {
             result.isImageCorrect &&
             result.isLatitudeCorrect &&
             result.isLongitudeCorrect
+}
+fun validatePupilInput(input: PupilInput): PupilValidationResult {
+    val country = input.country?.trim()
+    val name = input.name?.trim()
+    val image = input.image?.trim()
+
+    val isCountryValid = !country.isNullOrBlank() && country.length in 2..100
+    val isNameValid = !name.isNullOrBlank() && name.length in 2..100
+    val isImageValid = image.isNullOrBlank() || image.length in 11..1000
+    val isLatValid = input.latitude != null && input.latitude in -90.0..90.0
+    val isLonValid = input.longitude != null && input.longitude in -180.0..180.0
+
+    return PupilValidationResult(
+        isCountryCorrect = isCountryValid,
+        isNameCorrect = isNameValid,
+        isImageCorrect = isImageValid,
+        isLatitudeCorrect = isLatValid,
+        isLongitudeCorrect = isLonValid
+    )
 }

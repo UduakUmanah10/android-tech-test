@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -13,13 +12,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bridge.androidtechnicaltest.databinding.FragmentPupillistBinding
-import com.bridge.androidtechnicaltest.data.local.PupilItemEntity
 import com.bridge.androidtechnicaltest.presentation.MainActivity
 import com.bridge.androidtechnicaltest.presentation.adapters.StudentsAdapter
 import com.bridge.androidtechnicaltest.presentation.viewmodel.StudentsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -93,7 +90,7 @@ class PupilListFragment : Fragment() {
                 pupil.pupilId?.let { putInt("pupilId", it) }
             }
 
-            Toast.makeText(requireContext(), "Deleted: ${pupil.name}", Toast.LENGTH_SHORT).show()
+
             (activity as? MainActivity)?.navigateToFragment(UpdateFragment(), bundle)
 
         }
@@ -112,7 +109,7 @@ class PupilListFragment : Fragment() {
 
 
             }
-            Toast.makeText(requireContext(), "Deleted: ${pupil.name}", Toast.LENGTH_SHORT).show()
+
             (activity as? MainActivity)?.navigateToFragment(PupilDetailFragment(), bundle)
 
         }

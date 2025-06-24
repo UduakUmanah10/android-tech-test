@@ -56,7 +56,7 @@ class StudentPeriodicWorker @AssistedInject constructor(
             }
 
             studentsDao.getALLStudents().filter { operationId ->
-                operationId.offlineDataOperation == 1
+                operationId.offlineDataOperation == 2
 
             }.forEach { pupil ->
                 val update = PupilItemDto(

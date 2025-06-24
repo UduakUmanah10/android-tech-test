@@ -29,7 +29,7 @@
 				android:layout_width="321dp"
 				android:layout_height="50dp"
 				android:fontFamily=""
-				android:hint="What are you looking for ?"
+				android:hint="@string/search_with_pupil_ID"
 				android:paddingStart="20dp"
 				android:paddingTop="10dp"
 				android:paddingEnd="20dp"

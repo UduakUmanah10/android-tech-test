@@ -10,8 +10,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import com.bridge.androidtechnicaltest.R
 import com.bridge.androidtechnicaltest.databinding.FragmentAddStudentBinding
-import com.bridge.androidtechnicaltest.presentation.MainActivity
-import com.bridge.androidtechnicaltest.presentation.viewmodel.AddStudents
+import com.bridge.androidtechnicaltest.presentation.viewmodel.AddStudentsViewModel
 
 
 class AddStudent : Fragment() {
@@ -19,12 +18,9 @@ class AddStudent : Fragment() {
 
     private lateinit var binding: FragmentAddStudentBinding
 
-    private val viewMode: AddStudents by activityViewModels()
+    private val viewMode: AddStudentsViewModel by activityViewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
