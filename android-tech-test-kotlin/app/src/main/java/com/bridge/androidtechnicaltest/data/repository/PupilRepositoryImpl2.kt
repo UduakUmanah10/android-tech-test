@@ -67,6 +67,13 @@ class PupilRepositoryImpl2 @Inject constructor(
         )
     }
 
+    private suspend fun createStudentsOnline( pupil: PupilItemDto): PupilItemDto {
+        val remotePupils = Api.createPupil(pupil)
+        println(tag + " creating StudentsLocally" )
+        return remotePupils
+    }
+
+
 
     private suspend fun updateStudentsOnline(input: Pupils): PupilItemDto {
         val requestInput = input.toPupilItemDto()
@@ -246,6 +253,46 @@ class PupilRepositoryImpl2 @Inject constructor(
 
         }
     }
+
+    override suspend fun createStudents(studentID: Pupils): Flow<PupilResult<Pupils>> {
+        println("Pupil is been created")
+        return flow {
+            val response = try {
+                createStudentsOnline(studentID.toPupilItemDto())
+            } catch (http: HttpException) {
+                when (http.code()) {
+                    200 -> println("$tag createStudents passed: ${http.message}")
+                    401 -> println("$tag createStudents HttpException 401: ${http.message}")
+                    503 -> println("$tag createStudents HttpException 503: ${http.message}")
+                    404 -> println("$tag createStudents HttpException 404: ${http.message}")
+                    else -> println("$tag createStudents HttpException ${http.code()}: ${http.message}")
+                }
+                null
+            } catch (io: IOException) {
+                io.printStackTrace()
+                println("$tag createStudents IOException: ${io.message}")
+                null
+            } catch (e: Exception) {
+                e.printStackTrace()
+                println("$tag createStudents Exception: ${e.message}")
+                null
+            }
+
+            if (response != null) {
+                studentsDao.upSertPupils(
+                    studentID.toPupilsEntity().copy(
+                        offlineDataOperation = 0
+                    )
+                )
+                emit(PupilResult.Success(data = studentID))
+            } else {
+                emit(PupilResult.Error("Failed to create student"))
+            }
+        }
+    }
+
+
+
 
     override suspend fun updateStudents(pupil: Pupils): Flow<PupilResult<Pupils>> {
 
