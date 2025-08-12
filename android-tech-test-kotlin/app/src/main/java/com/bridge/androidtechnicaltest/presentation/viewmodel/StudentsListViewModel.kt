@@ -24,15 +24,13 @@ class StudentsViewModel @Inject constructor(
     init {
 
         viewModelScope.launch {
-            pupilRepo.getPupil().collect {
-                println("========= update  ${it.data?.items}")
-            }
+            pupilRepo.getPupil().collect {}
             initialValuer()
         }
     }
 
 
-    private val _uiState = MutableStateFlow(newUiState())
+    private val _uiState = MutableStateFlow(UiState())
     val uiState1 = _uiState.asStateFlow()
 
 
@@ -50,7 +48,6 @@ class StudentsViewModel @Inject constructor(
                      loading = true
                  )
 
-                 println("========= searching  ${data.data?.items}")
                 when (data) {
                     is PupilResult.Error -> {
                         data.data
@@ -79,12 +76,11 @@ class StudentsViewModel @Inject constructor(
 
             }
 
-            pupilRepo.getPupil().collect { data ->
-                println("========= new update  ${data.data?.items}")
+            pupilRepo.getPupil().collect { Responsedata ->
 
-                when (data) {
+                when (Responsedata) {
                     is PupilResult.Error -> {
-                        data.data?.items?.let {
+                        Responsedata.data?.items?.let {
                             _uiState.value = _uiState.value.copy(
                                 data = it,
                                 loading = false
@@ -93,7 +89,7 @@ class StudentsViewModel @Inject constructor(
                     }
 
                     is PupilResult.Success -> {
-                        data.data?.items?.let {
+                        Responsedata.data?.items?.let {
                             _uiState.value = _uiState.value.copy(
                                 data = it,
                                 loading = false
@@ -107,7 +103,7 @@ class StudentsViewModel @Inject constructor(
 }
 
 
-data class newUiState(
+data class UiState(
     val data: List<Pupils> = emptyList(),
     val loading: Boolean = true,
     val error: Boolean = false

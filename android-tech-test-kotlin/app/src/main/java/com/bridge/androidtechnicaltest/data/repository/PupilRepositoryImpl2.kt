@@ -67,12 +67,11 @@ class PupilRepositoryImpl2 @Inject constructor(
         )
     }
 
-    private suspend fun createStudentsOnline( pupil: PupilItemDto): PupilItemDto {
+    private suspend fun createStudentsOnline(pupil: PupilItemDto): PupilItemDto {
         val remotePupils = Api.createPupil(pupil)
-        println(tag + " creating StudentsLocally" )
+        println(tag + " creating StudentsLocally")
         return remotePupils
     }
-
 
 
     private suspend fun updateStudentsOnline(input: Pupils): PupilItemDto {
@@ -207,7 +206,7 @@ class PupilRepositoryImpl2 @Inject constructor(
     }
 
 
-    override suspend fun deleteAllStudents(studentID: Int): Flow<PupilResult<Pupils>> {
+    override suspend fun deleteStudentsById(studentID: Int): Flow<PupilResult<Pupils>> {
         return flow {
             val remotePupil = try {
                 deleteStudentOnline(studentID)
@@ -239,7 +238,6 @@ class PupilRepositoryImpl2 @Inject constructor(
 
             /** If remote fails, check local DB  and delete **/
             val localPupil = studentsDao.deleteStudentById(studentID)
-
             localPupil.let {
                 emit(
                     PupilResult.Success(
@@ -292,8 +290,6 @@ class PupilRepositoryImpl2 @Inject constructor(
     }
 
 
-
-
     override suspend fun updateStudents(pupil: Pupils): Flow<PupilResult<Pupils>> {
 
         return flow {
@@ -320,9 +316,11 @@ class PupilRepositoryImpl2 @Inject constructor(
                 null
             }
             response.let {
-                studentsDao.upSertPupils(pupil.toPupilsEntity().copy(
-                    offlineDataOperation = 1
-                ))
+                studentsDao.upSertPupils(
+                    pupil.toPupilsEntity().copy(
+                        offlineDataOperation = 1
+                    )
+                )
 
                 emit(PupilResult.Success(data = null))
             }

@@ -23,6 +23,7 @@ interface PupilApiService {
     @POST("pupils")
     suspend  fun createPupil(@Body pupil:  PupilItemDto):    PupilItemDto
 
+
     @PUT("pupils/{id}")
     suspend fun updatePupil(
         @Path("id") id: Int,

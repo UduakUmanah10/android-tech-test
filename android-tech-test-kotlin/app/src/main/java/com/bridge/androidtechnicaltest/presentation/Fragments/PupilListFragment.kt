@@ -97,7 +97,6 @@ class PupilListFragment : Fragment() {
 
 
         studentAdapter.itemClicked = { pupil ->
-            println("== $pupil ==")
 
             val bundle = Bundle().apply {
                 putString("name", pupil.name)
@@ -106,8 +105,6 @@ class PupilListFragment : Fragment() {
                 pupil.latitude?.let { putDouble("latitude", it) }
                 pupil.longitude?.let { putDouble("longitude", it) }
                 pupil.pupilId?.let { putInt("pupilId", it) }
-
-
             }
 
             (activity as? MainActivity)?.navigateToFragment(PupilDetailFragment(), bundle)
@@ -117,12 +114,8 @@ class PupilListFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-
                 viewModel.uiState1.collectLatest { state ->
-
-                    println(" /======= new ui Collected state: ${state.data}  ${state.error} ============ /")
                     studentAdapter.studentListDiffer.submitList(state.data)
-
                     if (state.loading) {
                         binding.progressBaree.visibility = View.VISIBLE
                     } else {

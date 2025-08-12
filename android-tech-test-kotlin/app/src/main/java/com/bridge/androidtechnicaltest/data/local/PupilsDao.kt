@@ -13,11 +13,11 @@ interface PupilsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upSert(student: PupilItemEntity)
 
-    // CORRECTED: Added 'suspend' keyword
+
     @Query("SELECT * FROM pupils_database ORDER BY time DESC")
     suspend fun getALLStudents(): List<PupilItemEntity>
 
-    // CORRECTED: Added 'suspend' keyword
+
     @Query("SELECT * FROM pupils_database WHERE pupilId = :studentId LIMIT 1")
     suspend fun getStudentById(studentId: Int): PupilItemEntity?
 

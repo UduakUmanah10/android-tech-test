@@ -20,13 +20,8 @@ class AddStudentsViewModel @Inject constructor(
 
 
     private val _InputValue = MutableStateFlow(inputValue())
-    private val InputValue = _InputValue.asStateFlow()
 
 
-    fun create() {
-        println("++++student deleted  ${InputValue.value.name} va+++")
-
-    }
 
     fun createStudent(
         country: String,
@@ -49,10 +44,9 @@ class AddStudentsViewModel @Inject constructor(
 
             val validity_check = validatePupilInput(input)
 
-            val check = isPupilInputValid(validity_check)
+            val isCheck = isPupilInputValid(validity_check)
 
-            if (check) {
-                println("create pupl called")
+            if (isCheck) {
 
                 pupilRepo.createStudents(input.toPupils()).collect { result ->
                     println("$result")

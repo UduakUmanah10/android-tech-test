@@ -16,7 +16,6 @@ class UpdateStudentViewModel @Inject constructor(
     private val pupilRepo: PupilRepository1,
 ) : ViewModel() {
 
-
     fun updateStudentFromInput(
         name: String, country:
         String, latitude: Double?,
@@ -38,7 +37,6 @@ class UpdateStudentViewModel @Inject constructor(
 
         val validityCheck = validatePupilInput(input)
         val isInputValid = isPupilInputValid(validityCheck)
-        println("+===== $isInputValid")
 
         viewModelScope.launch {
 
@@ -51,7 +49,7 @@ class UpdateStudentViewModel @Inject constructor(
                 pupilId = pupilId
             )
 
-            pupilRepo.updateStudents(pupil)
+            if (isInputValid) pupilRepo.updateStudents(pupil).collect{}
 
         }
 
@@ -75,14 +73,13 @@ class UpdateStudentViewModel @Inject constructor(
             image = image
         )
 
-        println(" input $input")
-
         val validityCheck = validatePupilInput(input)
         val isInputValid = isPupilInputValid(validityCheck)
-        println("+===== $isInputValid")
+
 
         viewModelScope.launch {
-            pupilRepo.deleteAllStudents(pupilId!!)
+
+            if (isInputValid) pupilRepo.deleteStudentsById(pupilId!!).collect{}
         }
 
     }

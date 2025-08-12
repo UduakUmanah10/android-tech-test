@@ -11,7 +11,7 @@ interface PupilRepository1 {
 
     suspend fun getStudentsByID(pupilId: Int): Flow<PupilResult<PupilList>>
 
-    suspend fun deleteAllStudents(studentID: Int): Flow<PupilResult<Pupils>>
+    suspend fun deleteStudentsById(studentID: Int): Flow<PupilResult<Pupils>>
 
     suspend fun createStudents(studentID:Pupils): Flow<PupilResult<Pupils>>
 
